@@ -161,6 +161,7 @@ export default function App() {
           onOpenLogin={() => setIsLoginModalOpen(true)}
           onOpenDigiLocker={() => setIsDigiLockerModalOpen(true)}
           isDigiLockerVerified={userSession.isDigiLockerVerified}
+          userSession={userSession}
           t={t}
         />
 

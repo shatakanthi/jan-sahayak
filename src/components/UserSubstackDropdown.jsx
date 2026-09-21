@@ -4,7 +4,7 @@ import { LOCALITIES } from '../data/mockLocalityData';
 import { LANGUAGES } from '../data/translations';
 
 export default function UserSubstackDropdown({
-  userSession,
+  userSession = {},
   onOpenLogin,
   onOpenDigiLocker,
   selectedLocality,
@@ -39,14 +39,14 @@ export default function UserSubstackDropdown({
       {/* Amazon-Style Main User Substack Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="px-3 py-1.5 bg-[#0B2545] hover:bg-[#0F4C81] text-white border border-slate-700 hover:border-[#EA580C] rounded-lg text-xs font-semibold flex items-center space-x-2 transition shadow-sm"
+        className="flex items-center space-x-2 bg-[#0B2545] hover:bg-[#0B2545]/80 px-3 py-1.5 rounded-lg border border-amber-500/40 transition shadow-sm"
       >
-        <div className="w-6 h-6 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-xs">
+        <div className="w-7 h-7 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-xs">
           <User className="w-3.5 h-3.5" />
         </div>
 
         <div className="text-left hidden sm:block leading-tight">
-          <div className="text-[10px] text-slate-300 font-normal">Hello, {userSession.name || 'Citizen'}</div>
+          <div className="text-[10px] text-slate-300 font-normal">Hello, {userSession?.name || 'Citizen'}</div>
           <div className="text-xs font-bold text-white flex items-center space-x-1">
             <span>User Account & Settings</span>
             <ChevronDown className={`w-3 h-3 text-amber-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -63,12 +63,12 @@ export default function UserSubstackDropdown({
           {/* User Profile Header */}
           <div className="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-1">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#0F4C81]">{userSession.name || 'Rajesh Kumar'}</span>
+              <span className="text-xs font-bold text-[#0F4C81]">{userSession?.name || 'Rajesh Kumar'}</span>
               <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-[#059669]/10 text-[#059669] border border-[#059669]/30">
                 🔒 DigiLocker Verified
               </span>
             </div>
-            <p className="text-[11px] text-[#64748B]">{userSession.email || 'rajesh.kumar@citizen.in'}</p>
+            <p className="text-[11px] text-[#64748B]">{userSession?.email || 'rajesh.kumar@citizen.in'}</p>
             <div className="text-[10px] text-[#0B2545] font-mono pt-1">Aadhaar: 9918-2049-8812 (Age: 42)</div>
 
             <button
