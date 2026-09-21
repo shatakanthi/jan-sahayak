@@ -7,26 +7,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        gov: {
-          50: '#f0f7ff',
-          100: '#e0effe',
-          500: '#2563eb',
-          600: '#1d4ed8',
-          700: '#1e40af',
-          800: '#1e3a8a',
-          900: '#0f172a',
-        },
-        hero: {
-          accent: '#10b981',
-          warning: '#f59e0b',
-          danger: '#ef4444',
-          purple: '#8b5cf6',
-          sky: '#06b6d4',
+        civic: {
+          navy: '#102A43',
+          saffron: '#D97706',
+          ivory: '#F8F7F2',
+          stone: '#E7E5DF',
+          charcoal: '#1F2933',
+          slate: '#52606D',
+          green: '#167D5A',
+          red: '#B42318',
         }
       },
-      animation: {
-        'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'bounce-light': 'bounce 2s infinite',
+      fontFamily: {
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      borderRadius: {
+        'civic-sm': '4px',
+        'civic-md': '8px',
+        'civic-lg': '12px',
       }
     },
   },

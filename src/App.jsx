@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import BottomNav from './components/BottomNav';
 import ProblemSearch from './components/ProblemSearch';
+import SchemeWizard from './components/SchemeWizard';
 import JourneyGraph from './components/JourneyGraph';
 import ObstacleResolverModal from './components/ObstacleResolverModal';
 import LifeEventNavigator from './components/LifeEventNavigator';
-import ProfileDrawer from './components/ProfileDrawer';
 import Dashboard from './components/Dashboard';
 import AdminPanel from './components/AdminPanel';
 import SchemeDetailModal from './components/SchemeDetailModal';
@@ -45,7 +45,7 @@ export default function App() {
   const t = (key) => getTranslation(currentLang, key);
 
   useEffect(() => {
-    document.title = "Jan Sahayak (SevaSetu) | Citizen Service Navigator";
+    document.title = "Jan Sahayak | World-Class Government Scheme Discovery Portal";
   }, []);
 
   useEffect(() => {
@@ -98,26 +98,26 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-slate-900 flex flex-col items-center justify-start relative selection:bg-amber-600 selection:text-white">
+    <div className="min-h-screen bg-[#F8F7F2] text-[#1F2933] flex flex-col items-center justify-start relative selection:bg-[#D97706] selection:text-white font-sans">
       
-      {/* Main View Container */}
+      {/* Main Container */}
       <div className={`w-full transition-all duration-300 ${
         isMobileFrame
-          ? 'my-4 sm:my-8 mobile-device-frame bg-[#faf9f6] flex flex-col overflow-hidden border-slate-700 shadow-2xl'
+          ? 'my-4 sm:my-8 mobile-device-frame bg-[#F8F7F2] flex flex-col overflow-hidden border-[#102A43] shadow-2xl'
           : 'min-h-screen flex flex-col'
       }`}>
 
         {/* Mobile Phone Top Notch */}
         {isMobileFrame && (
-          <div className="w-full bg-[#0b192c] pt-2 pb-1 flex justify-center items-center shrink-0 border-b border-slate-800">
-            <div className="w-20 h-4 bg-slate-950 rounded-full flex items-center justify-center space-x-2">
+          <div className="w-full bg-[#102A43] pt-2 pb-1 flex justify-center items-center shrink-0 border-b border-slate-800">
+            <div className="w-20 h-4 bg-[#0B1D2D] rounded-full flex items-center justify-center space-x-2">
               <span className="w-2.5 h-2.5 rounded-full bg-slate-800" />
               <span className="w-8 h-1.5 rounded-full bg-slate-800" />
             </div>
           </div>
         )}
 
-        {/* Global SevaSetu / Jan Sahayak Header */}
+        {/* Global Institutional Header */}
         <Header
           currentLang={currentLang}
           onLangChange={(lang) => setCurrentLang(lang)}
@@ -135,11 +135,11 @@ export default function App() {
         />
 
         {/* Main Body Viewport */}
-        <main className="flex-1 overflow-y-auto px-4 py-6 max-w-7xl w-full mx-auto space-y-6">
+        <main className="flex-1 overflow-y-auto px-4 py-8 max-w-7xl w-full mx-auto space-y-8">
           
-          {/* TAB 1: Search & Home Template */}
+          {/* TAB 1: Search & Home */}
           {activeTab === 'search' && (
-            <div className="animate-fadeIn">
+            <div className="animate-editorial-reveal">
               <ProblemSearch
                 onSearch={handleSearch}
                 searchResults={searchResults}
@@ -149,23 +149,35 @@ export default function App() {
                 onSimulateApply={handleSimulateApply}
                 selectedLocality={selectedLocality}
                 t={t}
+                onNavigateWizard={() => setActiveTab('wizard')}
                 onNavigateLifeEvents={() => setActiveTab('life-events')}
               />
             </div>
           )}
 
-          {/* TAB 2: Life Events Hub */}
+          {/* TAB 2: Flagship Scheme Wizard */}
+          {activeTab === 'wizard' && (
+            <div className="animate-editorial-reveal">
+              <SchemeWizard
+                onSelectScheme={(scheme) => setSelectedScheme(scheme)}
+                selectedLocality={selectedLocality}
+                t={t}
+              />
+            </div>
+          )}
+
+          {/* TAB 3: Life Events Hub */}
           {activeTab === 'life-events' && (
-            <div className="animate-fadeIn">
+            <div className="animate-editorial-reveal">
               <LifeEventNavigator
                 onSelectLifeEvent={(evt) => console.log(evt)}
               />
             </div>
           )}
 
-          {/* TAB 3: Personalized Citizen Dashboard */}
+          {/* TAB 4: Personalized Citizen Dashboard */}
           {activeTab === 'dashboard' && (
-            <div className="animate-fadeIn">
+            <div className="animate-editorial-reveal">
               <Dashboard
                 accountData={citizenAccount}
                 onSimulatePay={(bill) => setPayingBill(bill)}
@@ -175,9 +187,9 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 4: Citizen Journey Graph */}
+          {/* TAB 5: Citizen Journey Graph */}
           {activeTab === 'journey' && (
-            <div className="animate-fadeIn">
+            <div className="animate-editorial-reveal">
               <JourneyGraph
                 searchResults={searchResults}
                 onResolveObstacle={handleResolveObstacle}
@@ -186,9 +198,9 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 5: Obstacle Resolver with Obstacle AI Chatbot */}
+          {/* TAB 6: Obstacle Resolver & AI Assistant */}
           {activeTab === 'obstacle' && (
-            <div className="animate-fadeIn">
+            <div className="animate-editorial-reveal">
               <ObstacleResolverModal
                 selectedObstacle={selectedObstacle}
                 onClose={() => setSelectedObstacle(null)}
@@ -197,9 +209,9 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 6: Admin Panel */}
+          {/* TAB 7: Government Admin Panel */}
           {activeTab === 'admin' && (
-            <div className="animate-fadeIn">
+            <div className="animate-editorial-reveal">
               <AdminPanel
                 t={t}
                 services={servicesCatalogue}
