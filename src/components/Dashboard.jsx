@@ -1,165 +1,237 @@
 import React, { useState } from 'react';
 import { MOCK_CITIZEN_ACCOUNT } from '../data/mockCitizenAccount';
-import { UserCheck, Clock, CreditCard, Bookmark, CheckCircle2, ArrowRight, ShieldCheck, Download, AlertCircle } from 'lucide-react';
+import { UserCheck, Clock, CreditCard, Bookmark, ShieldCheck, Download, FileText, CheckCircle2, Lock, Sparkles, Filter } from 'lucide-react';
 
-export default function Dashboard({ accountData = MOCK_CITIZEN_ACCOUNT, onSimulatePay, onSelectScheme }) {
-  const [activeTab, setActiveTab] = useState('applications');
+export default function Dashboard({ 
+  accountData = MOCK_CITIZEN_ACCOUNT, 
+  onSimulatePay, 
+  onSelectScheme,
+  onOpenDigiLocker,
+  userSession,
+  t 
+}) {
+  // Page 1: Overview & DigiLocker Vault | Page 2: Applications & Excel Export
+  const [dashboardPage, setDashboardPage] = useState(1);
+  const [exportedSuccess, setExportedSuccess] = useState(false);
+
+  // Helper to export user data into CSV / Excel file
+  const handleExportUserExcel = () => {
+    const headers = ['Citizen ID', 'Name', 'Age', 'City', 'DigiLocker Status', 'Active Applications', 'Pending Bills Count', 'Eligibility Score'];
+    const row = [
+      accountData.citizenId,
+      accountData.name,
+      accountData.age,
+      accountData.city,
+      accountData.aadhaarStatus,
+      accountData.activeApplications.length,
+      accountData.pendingBills.length,
+      '98%'
+    ];
+
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), row.join(',')].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `Jan_Sahayak_User_Registry_${Date.now()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setExportedSuccess(true);
+    setTimeout(() => setExportedSuccess(false), 3000);
+  };
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-24 text-[#1F2933]">
       
-      {/* USP Header Banner */}
-      <div className="glass-panel p-5 rounded-3xl border border-blue-500/30 space-y-3">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-              {accountData.name.charAt(0)}
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <h2 className="text-lg font-bold text-white">{accountData.name}</h2>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  {accountData.aadhaarStatus}
-                </span>
-              </div>
-              <p className="text-xs text-slate-400">ID: {accountData.citizenId} • {accountData.city}</p>
-            </div>
-          </div>
+      {/* Dashboard Top Navigation & Two-Page Switcher */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#E7E5DF] pb-4">
+        <div>
+          <span className="text-[11px] font-bold text-[#D97706] uppercase tracking-widest">CITIZEN PORTAL</span>
+          <h2 className="text-2xl font-bold text-[#102A43] font-editorial">
+            Welcome back, {accountData.name}
+          </h2>
+          <p className="text-xs text-[#52606D]">Citizen ID: {accountData.citizenId} • {accountData.city}</p>
+        </div>
 
-          <div className="bg-slate-900/90 px-3.5 py-2 rounded-2xl border border-slate-800 text-right">
-            <div className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">PROPOSED USP</div>
-            <div className="text-xs font-medium text-slate-200">One Citizen Profile • Multiple Services • One Journey</div>
-          </div>
+        {/* Two Page Selector Buttons */}
+        <div className="bg-[#E7E5DF]/60 p-1 rounded-md flex space-x-1">
+          <button
+            onClick={() => setDashboardPage(1)}
+            className={`px-4 py-2 text-xs font-bold rounded-md transition ${
+              dashboardPage === 1 ? 'bg-[#102A43] text-white shadow-sm' : 'text-[#52606D] hover:text-[#1F2933]'
+            }`}
+          >
+            Page 1: Overview & DigiLocker Vault
+          </button>
+
+          <button
+            onClick={() => setDashboardPage(2)}
+            className={`px-4 py-2 text-xs font-bold rounded-md transition ${
+              dashboardPage === 2 ? 'bg-[#102A43] text-white shadow-sm' : 'text-[#52606D] hover:text-[#1F2933]'
+            }`}
+          >
+            Page 2: Applications & Excel Export
+          </button>
         </div>
       </div>
 
-      {/* Dashboard Sub-Tabs */}
-      <div className="flex space-x-2 border-b border-slate-800 pb-2">
-        <button
-          onClick={() => setActiveTab('applications')}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition flex items-center space-x-2 ${
-            activeTab === 'applications'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'bg-slate-900 text-slate-400 hover:text-white'
-          }`}
-        >
-          <Clock className="w-3.5 h-3.5" />
-          <span>Active Requests ({accountData.activeApplications.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('bills')}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition flex items-center space-x-2 ${
-            activeTab === 'bills'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'bg-slate-900 text-slate-400 hover:text-white'
-          }`}
-        >
-          <CreditCard className="w-3.5 h-3.5" />
-          <span>Pending Bills ({accountData.pendingBills.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('saved')}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition flex items-center space-x-2 ${
-            activeTab === 'saved'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'bg-slate-900 text-slate-400 hover:text-white'
-          }`}
-        >
-          <Bookmark className="w-3.5 h-3.5" />
-          <span>Saved Services ({accountData.savedServices.length})</span>
-        </button>
-      </div>
-
-      {/* TAB 1: Active Requests & Application Tracking */}
-      {activeTab === 'applications' && (
-        <div className="space-y-4">
-          {accountData.activeApplications.map((app, idx) => (
-            <div key={idx} className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-3">
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">
-                    {app.sector} • REF: {app.appId}
-                  </span>
-                  <h4 className="text-base font-bold text-white mt-0.5">{app.serviceName}</h4>
-                  <p className="text-xs text-slate-400">Applied: {app.appliedDate}</p>
+      {/* ================= PAGE 1: OVERVIEW & DIGILOCKER VAULT ================= */}
+      {dashboardPage === 1 && (
+        <div className="space-y-6 animate-editorial-reveal">
+          
+          {/* DigiLocker Status & Instant Eligibility Card */}
+          <div className="civic-card p-6 rounded-lg space-y-4 border-l-4 border-l-[#167D5A]">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-md bg-[#167D5A]/10 border border-[#167D5A]/30 flex items-center justify-center text-[#167D5A]">
+                  <Lock className="w-5 h-5" />
                 </div>
-                <span className={`text-xs font-bold px-3 py-1 rounded-xl border ${
-                  app.status === 'Approved'
-                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                    : 'bg-amber-500/10 text-amber-300 border-amber-500/20'
-                }`}>
-                  {app.status}
-                </span>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="text-base font-bold text-[#102A43] font-editorial">DigiLocker Verified Profile</h3>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded bg-[#167D5A]/10 text-[#167D5A] border border-[#167D5A]/30">
+                      🔒 Verified
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#52606D]">Aadhaar: 9918-2049-8812 • Verified by UIDAI & Revenue Dept</p>
+                </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">
-                <div className="flex items-center space-x-2 text-slate-300">
-                  <Clock className="w-4 h-4 text-amber-400 animate-pulse" />
-                  <span>Stage: <strong>{app.currentStage}</strong></span>
+              <button
+                onClick={onOpenDigiLocker}
+                className="px-4 py-2 bg-[#167D5A] hover:bg-[#0F5C41] text-white text-xs font-bold rounded-md transition shadow-sm"
+              >
+                Re-Authenticate DigiLocker
+              </button>
+            </div>
+
+            {/* Instant Eligibility Display */}
+            <div className="pt-3 border-t border-[#E7E5DF] space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-[#102A43] uppercase tracking-wider flex items-center space-x-1.5">
+                  <Sparkles className="w-4 h-4 text-[#D97706]" />
+                  <span>Instant Eligibility & Pre-Verified Requirements</span>
+                </span>
+                <span className="text-xs font-bold text-[#167D5A]">Score: 98% Match</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div className="p-2.5 bg-[#F8F7F2] rounded border border-[#E7E5DF] text-[#102A43] font-medium flex items-center justify-between">
+                  <span>IGNOAPS Old Age Pension (₹2,500/mo)</span>
+                  <span className="text-[10px] font-bold text-[#167D5A]">Eligible</span>
                 </div>
-                <span className="text-slate-500 text-[11px]">Est. Completion: {app.estimatedCompletion}</span>
+                <div className="p-2.5 bg-[#F8F7F2] rounded border border-[#E7E5DF] text-[#102A43] font-medium flex items-center justify-between">
+                  <span>Ayushman Bharat Health Cover (₹5 Lakh)</span>
+                  <span className="text-[10px] font-bold text-[#167D5A]">Eligible</span>
+                </div>
+                <div className="p-2.5 bg-[#F8F7F2] rounded border border-[#E7E5DF] text-[#102A43] font-medium flex items-center justify-between">
+                  <span>BESCOM Electricity & Water Transfer</span>
+                  <span className="text-[10px] font-bold text-[#167D5A]">Verified</span>
+                </div>
+                <div className="p-2.5 bg-[#F8F7F2] rounded border border-[#E7E5DF] text-[#102A43] font-medium flex items-center justify-between">
+                  <span>PM SVANidhi Micro-Credit Loan</span>
+                  <span className="text-[10px] font-bold text-[#167D5A]">Eligible</span>
+                </div>
               </div>
             </div>
-          ))}
+
+          </div>
+
+          {/* Pending Bills Grid */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-bold text-[#102A43] uppercase tracking-wider font-editorial">
+              Pending Utility Bills ({accountData.pendingBills.length})
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {accountData.pendingBills.map((bill, idx) => (
+                <div key={idx} className="civic-card p-4 rounded-lg space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-[#52606D] uppercase">{bill.provider}</span>
+                      <h4 className="text-sm font-bold text-[#1F2933] mt-0.5">{bill.title}</h4>
+                    </div>
+                    <span className="text-base font-bold text-[#167D5A]">₹{bill.amount}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs pt-2 border-t border-[#E7E5DF]">
+                    <span className="text-[#52606D]">Due: {bill.dueDate}</span>
+                    <button
+                      onClick={() => onSimulatePay(bill)}
+                      className="px-3.5 py-1.5 bg-[#167D5A] hover:bg-[#0F5C41] text-white font-bold text-xs rounded-md transition shadow-sm"
+                    >
+                      Pay ₹{bill.amount} (Simulated)
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       )}
 
-      {/* TAB 2: Pending Utility Bills & Simulated Payment */}
-      {activeTab === 'bills' && (
-        <div className="space-y-4">
-          <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 flex items-center justify-between">
-            <span>Notice: Payments use zero-risk simulated transactions for hackathon demo.</span>
-            <span className="font-bold text-emerald-400">No real money required</span>
+      {/* ================= PAGE 2: APPLICATIONS & EXCEL EXPORT ================= */}
+      {dashboardPage === 2 && (
+        <div className="space-y-6 animate-editorial-reveal">
+          
+          {/* Excel Export Action Header */}
+          <div className="civic-panel p-5 rounded-lg border border-[#E7E5DF] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#F8F7F2]">
+            <div>
+              <h3 className="text-base font-bold text-[#102A43] font-editorial">Citizen Registry Data Exporter</h3>
+              <p className="text-xs text-[#52606D]">Export complete citizen profiles, DigiLocker verification statuses, and application records to Excel/CSV.</p>
+            </div>
+
+            <button
+              onClick={handleExportUserExcel}
+              className="px-5 py-2.5 bg-[#102A43] hover:bg-[#1F2933] text-white font-bold text-xs rounded-md shadow transition flex items-center space-x-2 shrink-0"
+            >
+              <Download className="w-4 h-4 text-[#D97706]" />
+              <span>Export User Data (Excel / CSV)</span>
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {accountData.pendingBills.map((bill, idx) => (
-              <div key={idx} className="glass-panel p-4 rounded-2xl border border-slate-800 space-y-3">
+          {exportedSuccess && (
+            <div className="p-3 bg-[#167D5A]/10 border border-[#167D5A]/30 text-[#167D5A] text-xs font-bold rounded-md flex items-center space-x-2">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>User Registry Excel/CSV file downloaded successfully!</span>
+            </div>
+          )}
+
+          {/* Active Applications Timeline List */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-bold text-[#102A43] uppercase tracking-wider font-editorial">
+              Active Application Records ({accountData.activeApplications.length})
+            </h3>
+
+            {accountData.activeApplications.map((app, idx) => (
+              <div key={idx} className="civic-card p-5 rounded-lg space-y-3">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                      {bill.provider} • Bill #{bill.billId}
+                    <span className="text-[10px] font-bold text-[#102A43] uppercase tracking-wider">
+                      {app.sector} • REF: {app.appId}
                     </span>
-                    <h4 className="text-sm font-bold text-white mt-0.5">{bill.title}</h4>
+                    <h4 className="text-base font-bold text-[#1F2933] mt-0.5 font-editorial">{app.serviceName}</h4>
+                    <p className="text-xs text-[#52606D]">Applied Date: {app.appliedDate}</p>
                   </div>
-                  <span className="text-base font-bold text-emerald-400">₹{bill.amount}</span>
+
+                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
+                    {app.status}
+                  </span>
                 </div>
 
-                <div className="flex items-center justify-between text-xs border-t border-slate-800 pt-2.5">
-                  <span className="text-slate-400">Due Date: {bill.dueDate}</span>
-                  <button
-                    onClick={() => onSimulatePay(bill)}
-                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition shadow-md flex items-center space-x-1"
-                  >
-                    <CreditCard className="w-3.5 h-3.5" />
-                    <span>Pay ₹{bill.amount} (Simulated)</span>
-                  </button>
+                <div className="p-3 bg-[#F8F7F2] rounded border border-[#E7E5DF] flex items-center justify-between text-xs">
+                  <div className="flex items-center space-x-2 text-[#102A43]">
+                    <Clock className="w-4 h-4 text-[#D97706]" />
+                    <span>Current Stage: <strong>{app.currentStage}</strong></span>
+                  </div>
+                  <span className="text-[#52606D] text-[11px]">Est. Completion: {app.estimatedCompletion}</span>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      )}
 
-      {/* TAB 3: Saved Services */}
-      {activeTab === 'saved' && (
-        <div className="space-y-3">
-          {accountData.savedServices.map((saved, idx) => (
-            <div key={idx} className="glass-panel p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
-              <div>
-                <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">{saved.category}</span>
-                <h4 className="text-sm font-bold text-white mt-0.5">{saved.name}</h4>
-              </div>
-              <button
-                onClick={() => onSelectScheme({ id: saved.id, name: saved.name })}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl border border-slate-700"
-              >
-                Launch Journey →
-              </button>
-            </div>
-          ))}
         </div>
       )}
 

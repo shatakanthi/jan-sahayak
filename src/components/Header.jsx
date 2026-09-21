@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Landmark, Search, MapPin, Globe, UserCog, Smartphone, Monitor, Key, Eye } from 'lucide-react';
+import { Landmark, Search, MapPin, Globe, UserCog, Smartphone, Monitor, Key, Eye, User, Lock, ShieldCheck } from 'lucide-react';
 import { LOCALITIES } from '../data/mockLocalityData';
 
 export const LANGUAGES = [
@@ -25,6 +25,9 @@ export default function Header({
   activeTab = 'search',
   onTabChange,
   hasApiKey,
+  onOpenLogin,
+  onOpenDigiLocker,
+  isDigiLockerVerified,
   t = (k) => k
 }) {
   const [highContrast, setHighContrast] = useState(false);
@@ -36,7 +39,7 @@ export default function Header({
   return (
     <header className="sticky top-0 z-40 bg-[#102A43] text-white shadow-md border-b border-[#1F2933]">
       
-      {/* 1. TOPMOST THIN STRIP - GOVERNMENT IDENTITY */}
+      {/* 1. TOPMOST THIN STRIP */}
       <div className="bg-[#0B1D2D] text-slate-300 px-4 py-1.5 text-[11px] font-medium border-b border-[#1A3652]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -54,7 +57,10 @@ export default function Header({
               <span>Accessibility</span>
             </button>
             <span className="text-slate-500">|</span>
-            <span className="text-emerald-400 font-medium">✓ Official Verified Portal</span>
+            <span className="text-emerald-400 font-medium flex items-center space-x-1">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Official Verified Portal</span>
+            </span>
           </div>
         </div>
       </div>
@@ -83,7 +89,7 @@ export default function Header({
           </div>
         </div>
 
-        {/* Quiet Navigation Tabs */}
+        {/* Quiet Navigation Tabs (Journey Tab Removed as requested) */}
         <nav className="hidden lg:flex items-center space-x-6 text-xs font-medium text-slate-200">
           <button
             onClick={() => safeTabChange('search')}
@@ -107,7 +113,7 @@ export default function Header({
             onClick={() => safeTabChange('dashboard')}
             className={`transition py-1 border-b-2 ${activeTab === 'dashboard' ? 'text-amber-400 font-bold border-amber-500' : 'border-transparent hover:text-white'}`}
           >
-            Track Application
+            Citizen Dashboard
           </button>
           <button
             onClick={() => safeTabChange('obstacle')}
@@ -120,6 +126,19 @@ export default function Header({
         {/* Right Controls */}
         <div className="flex items-center space-x-2 shrink-0">
           
+          {/* User Auth / DigiLocker Status Button */}
+          <button
+            onClick={onOpenLogin}
+            className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center space-x-1.5 transition border ${
+              isDigiLockerVerified
+                ? 'bg-[#167D5A] text-white border-[#167D5A]'
+                : 'bg-[#0B1D2D] text-slate-200 border-slate-700 hover:border-slate-500'
+            }`}
+          >
+            <User className="w-3.5 h-3.5 text-amber-400" />
+            <span>{isDigiLockerVerified ? 'DigiLocker 🔒' : 'User Portal'}</span>
+          </button>
+
           {/* Locality Selector */}
           <div className="relative flex items-center">
             <MapPin className="w-3.5 h-3.5 text-amber-400 absolute left-2.5 pointer-events-none" />
@@ -150,7 +169,7 @@ export default function Header({
             </select>
           </div>
 
-          {/* Admin Panel Toggle */}
+          {/* Admin Toggle */}
           <button
             onClick={onToggleAdminMode}
             className={`px-2.5 py-1.5 rounded-md text-xs font-semibold flex items-center space-x-1 transition border ${
@@ -161,22 +180,6 @@ export default function Header({
           >
             <UserCog className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Admin</span>
-          </button>
-
-          {/* Mobile Frame Preview Toggle */}
-          <button
-            onClick={onToggleMobileFrame}
-            className="p-1.5 rounded-md bg-[#0B1D2D] text-slate-300 border border-slate-700 hover:text-white transition"
-          >
-            {isMobileFrame ? <Monitor className="w-4 h-4 text-amber-400" /> : <Smartphone className="w-4 h-4 text-emerald-400" />}
-          </button>
-
-          {/* Primary CTA: Find My Schemes */}
-          <button
-            onClick={() => safeTabChange('wizard')}
-            className="px-3.5 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-semibold rounded-md transition shadow-sm shrink-0 hidden sm:inline-block"
-          >
-            Find My Schemes
           </button>
 
         </div>

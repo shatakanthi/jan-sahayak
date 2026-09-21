@@ -3,7 +3,6 @@ import Header from './components/Header';
 import BottomNav from './components/BottomNav';
 import ProblemSearch from './components/ProblemSearch';
 import SchemeWizard from './components/SchemeWizard';
-import JourneyGraph from './components/JourneyGraph';
 import ObstacleResolverModal from './components/ObstacleResolverModal';
 import LifeEventNavigator from './components/LifeEventNavigator';
 import Dashboard from './components/Dashboard';
@@ -11,6 +10,8 @@ import AdminPanel from './components/AdminPanel';
 import SchemeDetailModal from './components/SchemeDetailModal';
 import ApiSettingsModal from './components/ApiSettingsModal';
 import SimulatedPaymentModal from './components/SimulatedPaymentModal';
+import UserAuthModal from './components/UserAuthModal';
+import DigiLockerModal from './components/DigiLockerModal';
 import { searchCitizenProblem } from './services/geminiService';
 import { VERIFIED_SCHEMES } from './data/verifiedSchemes';
 import { MOCK_CITIZEN_ACCOUNT } from './data/mockCitizenAccount';
@@ -22,11 +23,24 @@ export default function App() {
   const [currentLang, setCurrentLang] = useState('en');
   const [selectedLocality, setSelectedLocality] = useState('bangalore-urban');
   const [isAdminMode, setIsAdminMode] = useState(false);
-  const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
-  const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
   
+  // Modals State
+  const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isDigiLockerModalOpen, setIsDigiLockerModalOpen] = useState(false);
+  
+  // User Authentication & DigiLocker Database State
+  const [userSession, setUserSession] = useState({
+    isLoggedIn: true,
+    name: 'Rajesh Kumar',
+    email: 'rajesh.kumar@citizen.in',
+    isDigiLockerVerified: true
+  });
+
+  const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
   const [servicesCatalogue, setServicesCatalogue] = useState(VERIFIED_SCHEMES);
   const [citizenAccount, setCitizenAccount] = useState(MOCK_CITIZEN_ACCOUNT);
+  
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   
@@ -45,11 +59,11 @@ export default function App() {
   const t = (key) => getTranslation(currentLang, key);
 
   useEffect(() => {
-    document.title = "Jan Sahayak | World-Class Government Scheme Discovery Portal";
+    document.title = "Jan Sahayak | Government Scheme Discovery & DigiLocker Portal";
   }, []);
 
   useEffect(() => {
-    handleSearch(t('heroQuery'));
+    handleSearch("I need senior citizen health cover & pension assistance");
   }, [selectedLocality, currentLang]);
 
   const handleSearch = async (userProblem) => {
@@ -97,6 +111,19 @@ export default function App() {
     }
   };
 
+  const handleDigiLockerSuccess = (digiData) => {
+    setUserSession(prev => ({
+      ...prev,
+      isDigiLockerVerified: true,
+      digiData: digiData
+    }));
+
+    setCitizenAccount(prev => ({
+      ...prev,
+      aadhaarStatus: 'DigiLocker Verified 🔒'
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F7F2] text-[#1F2933] flex flex-col items-center justify-start relative selection:bg-[#D97706] selection:text-white font-sans">
       
@@ -117,7 +144,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Global Institutional Header */}
+        {/* Global Header */}
         <Header
           currentLang={currentLang}
           onLangChange={(lang) => setCurrentLang(lang)}
@@ -131,13 +158,16 @@ export default function App() {
           activeTab={activeTab}
           onTabChange={(tab) => setActiveTab(tab)}
           hasApiKey={!!apiKey}
+          onOpenLogin={() => setIsLoginModalOpen(true)}
+          onOpenDigiLocker={() => setIsDigiLockerModalOpen(true)}
+          isDigiLockerVerified={userSession.isDigiLockerVerified}
           t={t}
         />
 
         {/* Main Body Viewport */}
         <main className="flex-1 overflow-y-auto px-4 py-8 max-w-7xl w-full mx-auto space-y-8">
           
-          {/* TAB 1: Search & Home */}
+          {/* TAB 1: Search & Real-time Custom Query */}
           {activeTab === 'search' && (
             <div className="animate-editorial-reveal">
               <ProblemSearch
@@ -151,6 +181,8 @@ export default function App() {
                 t={t}
                 onNavigateWizard={() => setActiveTab('wizard')}
                 onNavigateLifeEvents={() => setActiveTab('life-events')}
+                onOpenDigiLocker={() => setIsDigiLockerModalOpen(true)}
+                isDigiLockerVerified={userSession.isDigiLockerVerified}
               />
             </div>
           )}
@@ -175,30 +207,21 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 4: Personalized Citizen Dashboard */}
+          {/* TAB 4: 2-Page Citizen Dashboard with DigiLocker Vault & User Excel Data Export */}
           {activeTab === 'dashboard' && (
             <div className="animate-editorial-reveal">
               <Dashboard
                 accountData={citizenAccount}
                 onSimulatePay={(bill) => setPayingBill(bill)}
                 onSelectScheme={(scheme) => setSelectedScheme(scheme)}
+                onOpenDigiLocker={() => setIsDigiLockerModalOpen(true)}
+                userSession={userSession}
                 t={t}
               />
             </div>
           )}
 
-          {/* TAB 5: Citizen Journey Graph */}
-          {activeTab === 'journey' && (
-            <div className="animate-editorial-reveal">
-              <JourneyGraph
-                searchResults={searchResults}
-                onResolveObstacle={handleResolveObstacle}
-                t={t}
-              />
-            </div>
-          )}
-
-          {/* TAB 6: Obstacle Resolver & AI Assistant */}
+          {/* TAB 5: Obstacle Resolver & AI Assistant Chatbot */}
           {activeTab === 'obstacle' && (
             <div className="animate-editorial-reveal">
               <ObstacleResolverModal
@@ -209,7 +232,7 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 7: Government Admin Panel */}
+          {/* TAB 6: Government Admin Panel */}
           {activeTab === 'admin' && (
             <div className="animate-editorial-reveal">
               <AdminPanel
@@ -245,6 +268,23 @@ export default function App() {
         <ApiSettingsModal
           onClose={() => setIsApiKeyModalOpen(false)}
           onSaveApiKey={(key) => setApiKey(key)}
+        />
+      )}
+
+      {/* User Login & Registration Portal Modal */}
+      {isLoginModalOpen && (
+        <UserAuthModal
+          onClose={() => setIsLoginModalOpen(false)}
+          onLoginSuccess={(session) => setUserSession(session)}
+          onOpenDigiLocker={() => setIsDigiLockerModalOpen(true)}
+        />
+      )}
+
+      {/* DigiLocker Authentication Modal */}
+      {isDigiLockerModalOpen && (
+        <DigiLockerModal
+          onClose={() => setIsDigiLockerModalOpen(false)}
+          onDigiLockerSuccess={handleDigiLockerSuccess}
         />
       )}
 

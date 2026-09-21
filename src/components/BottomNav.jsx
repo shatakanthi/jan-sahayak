@@ -1,11 +1,11 @@
 import React from 'react';
-import { Search, UserCheck, GitFork, AlertTriangle, UserCog, Sparkles } from 'lucide-react';
+import { Search, UserCheck, AlertTriangle, UserCog, Sparkles } from 'lucide-react';
 
 export default function BottomNav({ activeTab, onTabChange, t }) {
   const tabs = [
     { id: 'search', label: 'Gov Schemes', icon: Search },
     { id: 'wizard', label: 'Scheme Finder', icon: Sparkles, badge: 'Flagship' },
-    { id: 'dashboard', label: 'Track App', icon: UserCheck },
+    { id: 'dashboard', label: 'Citizen Portal', icon: UserCheck },
     { id: 'obstacle', label: 'Obstacle AI', icon: AlertTriangle, badge: 'Hero' },
     { id: 'admin', label: 'Admin', icon: UserCog },
   ];
