@@ -3,8 +3,8 @@
 
 @layer base {
   body {
-    background-color: #F4F6F3;
-    color: #16796F;
+    background-color: #F8F9FA;
+    color: #383b3d;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
@@ -12,6 +12,7 @@
 
   h1, h2, h3, .font-editorial {
     font-family: 'Playfair Display', Georgia, serif;
+    color: #324a60;
   }
 }
 
@@ -19,44 +20,44 @@
 .service-section {
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
-  border-bottom: 1px solid #B7BDA9;
+  border-bottom: 1px solid #896e6a;
 }
 
 /* Jan Sahayak Cards */
 .jan-card {
   background-color: #FFFFFF;
-  border: 1px solid #B7BDA9;
+  border: 1px solid #896e6a;
   border-radius: 12px;
   transition: all 0.2s ease-in-out;
 }
 
 .jan-card:hover {
-  border-color: #16796F;
-  box-shadow: 0 4px 14px rgba(22, 121, 111, 0.12);
+  border-color: #e8ab16;
+  box-shadow: 0 4px 14px rgba(232, 171, 22, 0.15);
   transform: translateY(-2px);
 }
 
-/* Primary Logo Buttons */
+/* Primary Logo & Action Buttons */
 .btn-jan-blue {
-  background-color: #16796F;
+  background-color: #324a60;
   color: #FFFFFF;
   border-radius: 8px;
   font-weight: 600;
   transition: all 0.15s ease-out;
 }
 .btn-jan-blue:hover {
-  background-color: #148B4B;
+  background-color: #243545;
 }
 
-.btn-jan-orange {
-  background-color: #148B4B;
-  color: #FFFFFF;
+.btn-jan-gold {
+  background-color: #e8ab16;
+  color: #383b3d;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.15s ease-out;
 }
-.btn-jan-orange:hover {
-  background-color: #106f3c;
+.btn-jan-gold:hover {
+  background-color: #d19910;
 }
 
 /* Custom Scrollbar */
@@ -65,9 +66,9 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F4F6F3;
+  background: #F8F9FA;
 }
 ::-webkit-scrollbar-thumb {
-  background: #B7BDA9;
+  background: #896e6a;
   border-radius: 4px;
 }

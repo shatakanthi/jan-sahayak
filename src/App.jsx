@@ -29,12 +29,14 @@ export default function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isDigiLockerModalOpen, setIsDigiLockerModalOpen] = useState(false);
   
-  // User Authentication & DigiLocker Database State
+  // Dynamic User Session State (Editable per User Input)
   const [userSession, setUserSession] = useState({
     isLoggedIn: true,
-    name: 'Rajesh Kumar',
-    email: 'rajesh.kumar@citizen.in',
-    isDigiLockerVerified: true
+    name: 'Citizen Profile',
+    email: 'citizen@portal.in',
+    age: '30',
+    aadhaarNo: '9918-2049-8812',
+    isDigiLockerVerified: false
   });
 
   const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
@@ -115,6 +117,7 @@ export default function App() {
     setUserSession(prev => ({
       ...prev,
       isDigiLockerVerified: true,
+      aadhaarNo: digiData.aadhaarNumber || prev.aadhaarNo,
       digiData: digiData
     }));
 
@@ -125,21 +128,21 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F7F2] text-[#1F2933] flex flex-col items-center justify-start relative selection:bg-[#D97706] selection:text-white font-sans">
+    <div className="min-h-screen bg-[#F8F9FA] text-[#383b3d] flex flex-col items-center justify-start relative selection:bg-[#e8ab16] selection:text-[#383b3d] font-sans">
       
       {/* Main Container */}
       <div className={`w-full transition-all duration-300 ${
         isMobileFrame
-          ? 'my-4 sm:my-8 mobile-device-frame bg-[#F8F7F2] flex flex-col overflow-hidden border-[#102A43] shadow-2xl'
+          ? 'my-4 sm:my-8 mobile-device-frame bg-[#F8F9FA] flex flex-col overflow-hidden border-[#324a60] shadow-2xl'
           : 'min-h-screen flex flex-col'
       }`}>
 
         {/* Mobile Phone Top Notch */}
         {isMobileFrame && (
-          <div className="w-full bg-[#102A43] pt-2 pb-1 flex justify-center items-center shrink-0 border-b border-slate-800">
-            <div className="w-20 h-4 bg-[#0B1D2D] rounded-full flex items-center justify-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-slate-800" />
-              <span className="w-8 h-1.5 rounded-full bg-slate-800" />
+          <div className="w-full bg-[#324a60] pt-2 pb-1 flex justify-center items-center shrink-0 border-b border-[#896e6a]">
+            <div className="w-20 h-4 bg-[#243545] rounded-full flex items-center justify-center space-x-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#896e6a]" />
+              <span className="w-8 h-1.5 rounded-full bg-[#896e6a]" />
             </div>
           </div>
         )}
@@ -278,6 +281,7 @@ export default function App() {
           onClose={() => setIsLoginModalOpen(false)}
           onLoginSuccess={(session) => setUserSession(session)}
           onOpenDigiLocker={() => setIsDigiLockerModalOpen(true)}
+          currentUserSession={userSession}
         />
       )}
 
@@ -286,6 +290,7 @@ export default function App() {
         <DigiLockerModal
           onClose={() => setIsDigiLockerModalOpen(false)}
           onDigiLockerSuccess={handleDigiLockerSuccess}
+          userSession={userSession}
         />
       )}
 

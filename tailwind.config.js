@@ -8,15 +8,13 @@ export default {
     extend: {
       colors: {
         jan: {
-          teal: '#16796F',      // Primary Deep Teal
-          mutedTeal: '#599D9C', // Secondary Seafoam Teal
-          sage: '#B7BDA9',      // Soft Sage Surface / Border
-          green: '#148B4B',     // Vibrant Emerald Action
-          bg: '#F4F6F3',
+          gold: '#e8ab16',     // Action Buttons, Primary CTAs & Active Highlights
+          navy: '#324a60',     // Headers, Navbars & Main Titles
+          taupe: '#896e6a',    // Borders, Muted Labels & Dividers
+          olive: '#74744a',    // Verified Badges & Success Tags
+          dark: '#383b3d',     // Primary Readable Body Text
+          bg: '#F8F9FA',
           card: '#FFFFFF',
-          border: '#B7BDA9',
-          textDark: '#16796F',
-          textMuted: '#599D9C',
         }
       },
       fontFamily: {
