@@ -90,17 +90,17 @@ export default function ProblemSearch({
   };
 
   return (
-    <div className="space-y-14 pb-20 text-[#0B2545]">
+    <div className="space-y-14 pb-20 text-[#16796F]">
       
       {/* 1. HERO SECTION WITH OFFICIAL LOGO IMAGE */}
-      <div className="bg-[#0B2545] text-white p-8 sm:p-14 rounded-xl space-y-8 relative shadow-lg">
+      <div className="bg-[#16796F] text-white p-8 sm:p-14 rounded-xl space-y-8 relative shadow-lg">
         
         <div className="max-w-3xl space-y-5">
           <div className="flex items-center space-x-3">
-            <img src={logoImg} alt="Jan Sahayak Emblem" className="w-12 h-12 rounded-lg bg-white p-1 object-contain border-2 border-[#EA580C]" />
+            <img src={logoImg} alt="Jan Sahayak Emblem" className="w-12 h-12 rounded-lg bg-white p-1 object-contain border-2 border-[#148B4B]" />
             <div>
-              <span className="text-xs font-bold text-[#EA580C] tracking-widest uppercase">जन सहायक • JAN SHAYAK</span>
-              <h3 className="text-sm font-semibold text-slate-300">HELPING THE PEOPLE</h3>
+              <span className="text-xs font-bold text-[#B7BDA9] tracking-widest uppercase">जन सहायक • JAN SHAYAK</span>
+              <h3 className="text-sm font-semibold text-emerald-100">HELPING THE PEOPLE</h3>
             </div>
           </div>
 
@@ -108,14 +108,14 @@ export default function ProblemSearch({
             Discover the Services Available to You.
           </h2>
 
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-sans max-w-2xl">
+          <p className="text-sm sm:text-base text-emerald-100 leading-relaxed font-sans max-w-2xl">
             Explore government services, benefits and rights based on your needs, eligibility and location.
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
             <button
               onClick={onNavigateWizard}
-              className="px-6 py-3 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-2"
+              className="px-6 py-3 bg-[#148B4B] hover:bg-[#106f3c] text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-2"
             >
               <span>Find Services for Me</span>
               <ArrowRight className="w-4 h-4" />
@@ -123,9 +123,9 @@ export default function ProblemSearch({
 
             <button
               onClick={onOpenDigiLocker}
-              className="px-6 py-3 bg-[#0F4C81] hover:bg-slate-800 text-white border border-slate-700 font-bold text-xs rounded-lg transition flex items-center space-x-2"
+              className="px-6 py-3 bg-[#115E57] hover:bg-[#115E57]/80 text-white border border-[#B7BDA9]/40 font-bold text-xs rounded-lg transition flex items-center space-x-2"
             >
-              <Lock className="w-4 h-4 text-[#EA580C]" />
+              <Lock className="w-4 h-4 text-[#B7BDA9]" />
               <span>Connect DigiLocker 🔒</span>
             </button>
           </div>
@@ -133,15 +133,15 @@ export default function ProblemSearch({
 
         {/* Search Bar Input Form */}
         <form onSubmit={handleSearchSubmit} className="max-w-3xl">
-          <div className="relative flex items-center bg-white rounded-lg p-2 shadow-lg border border-slate-200">
-            <Search className="w-5 h-5 text-slate-400 ml-3 shrink-0" />
+          <div className="relative flex items-center bg-white rounded-lg p-2 shadow-lg border border-[#B7BDA9]">
+            <Search className="w-5 h-5 text-[#599D9C] ml-3 shrink-0" />
             
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search government services, benefits, departments or utility transfers..."
-              className="w-full bg-transparent px-3 py-2 text-sm text-[#0B2545] placeholder-slate-400 focus:outline-none font-medium"
+              className="w-full bg-transparent px-3 py-2 text-sm text-[#16796F] placeholder-[#599D9C] focus:outline-none font-medium"
             />
 
             <button
@@ -149,25 +149,25 @@ export default function ProblemSearch({
               onClick={toggleVoiceInput}
               title="Voice Input"
               className={`p-2 rounded-md transition-colors shrink-0 ${
-                isListening ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                isListening ? 'bg-rose-500 text-white' : 'bg-[#F4F6F3] text-[#16796F] hover:bg-slate-200'
               }`}
             >
-              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#EA580C]" />}
+              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#148B4B]" />}
             </button>
 
             <button
               type="submit"
               disabled={loading}
-              className="ml-2 px-6 py-2.5 bg-[#0F4C81] hover:bg-[#0B2545] text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 transition shrink-0"
+              className="ml-2 px-6 py-2.5 bg-[#148B4B] hover:bg-[#106f3c] text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 transition shrink-0"
             >
               {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <span>Search Services</span>}
             </button>
           </div>
         </form>
 
-        <div className="text-xs text-slate-300 pt-1 flex items-center justify-between border-t border-slate-800 max-w-3xl">
+        <div className="text-xs text-emerald-100 pt-1 flex items-center justify-between border-t border-[#599D9C]/60 max-w-3xl">
           <span>Active Locality: <strong>{activeLocalityObj.name}</strong></span>
-          <span className="text-[#059669] font-semibold">Grounded AI Search Enabled</span>
+          <span className="text-[#B7BDA9] font-semibold">Grounded AI Search Enabled</span>
         </div>
 
       </div>
@@ -175,9 +175,9 @@ export default function ProblemSearch({
       {/* 2. CATEGORY SECTOR NAVIGATION WITH CLEAR SPACIOUS PADDING */}
       <div className="space-y-6 service-section">
         <div>
-          <span className="text-[11px] font-bold text-[#EA580C] uppercase tracking-widest">CATEGORIES</span>
-          <h3 className="text-2xl font-bold text-[#0B2545] font-editorial mt-0.5">What services are you looking for?</h3>
-          <p className="text-xs text-[#64748B]">Browse services grouped by category and life requirements.</p>
+          <span className="text-[11px] font-bold text-[#148B4B] uppercase tracking-widest">CATEGORIES</span>
+          <h3 className="text-2xl font-bold text-[#16796F] font-editorial mt-0.5">What services are you looking for?</h3>
+          <p className="text-xs text-[#599D9C]">Browse services grouped by category and life requirements.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -190,14 +190,14 @@ export default function ProblemSearch({
                 className="jan-card p-5 rounded-xl cursor-pointer space-y-3"
               >
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-[#0F4C81]">
-                    <Icon className="w-5 h-5 text-[#0F4C81]" />
+                  <div className="w-10 h-10 rounded-lg bg-[#F4F6F3] border border-[#B7BDA9] flex items-center justify-center text-[#16796F]">
+                    <Icon className="w-5 h-5 text-[#16796F]" />
                   </div>
-                  <span className="text-[10px] font-mono font-semibold text-[#64748B] bg-slate-100 px-2 py-0.5 rounded">{cat.count}</span>
+                  <span className="text-[10px] font-mono font-semibold text-[#599D9C] bg-[#F4F6F3] px-2 py-0.5 rounded">{cat.count}</span>
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-bold text-[#0B2545] font-editorial">{cat.name}</h4>
+                  <h4 className="text-sm font-bold text-[#16796F] font-editorial">{cat.name}</h4>
                   <p className="text-xs text-[#64748B] mt-0.5">{cat.desc}</p>
                 </div>
               </div>
