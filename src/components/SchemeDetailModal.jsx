@@ -28,7 +28,7 @@ export default function SchemeDetailModal({ scheme, onClose, onResolveObstacle }
         <div className="space-y-2 border-b border-[#E7E5DF] pb-4">
           <div className="flex items-center space-x-2">
             <span className="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded bg-[#102A43]/10 text-[#102A43]">
-              {scheme.sector || scheme.category || 'Government Scheme'}
+              {scheme.sector || scheme.category || 'Government Service'}
             </span>
             <span className="text-xs font-bold text-[#167D5A] flex items-center space-x-1">
               <ShieldCheck className="w-4 h-4" />
@@ -122,7 +122,7 @@ export default function SchemeDetailModal({ scheme, onClose, onResolveObstacle }
             rel="noopener noreferrer"
             className="px-5 py-2 bg-[#102A43] hover:bg-[#1F2933] text-white text-xs font-bold rounded-md flex items-center space-x-1"
           >
-            <span>Go to Official Scheme Portal</span>
+            <span>Go to Official Service Portal</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>

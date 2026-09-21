@@ -3,8 +3,8 @@
 
 @layer base {
   body {
-    background-color: #F8F7F2;
-    color: #1F2933;
+    background-color: #F8FAFC;
+    color: #0B2545;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
@@ -15,51 +15,48 @@
   }
 }
 
-/* Institutional Editorial Surfaces */
-.civic-card {
-  background-color: #FFFFFF;
-  border: 1px solid #E7E5DF;
-  border-radius: 8px;
-  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+/* Service Section Separators with Clean Spaces */
+.service-section {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid #E2E8F0;
 }
 
-.civic-card:hover {
-  border-color: #D97706;
-  box-shadow: 0 4px 12px rgba(16, 42, 67, 0.05);
+/* Jan Sahayak Cards */
+.jan-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.jan-card:hover {
+  border-color: #0F4C81;
+  box-shadow: 0 4px 14px rgba(15, 76, 129, 0.08);
   transform: translateY(-2px);
 }
 
-.civic-panel {
-  background-color: #F8F7F2;
-  border: 1px solid #E7E5DF;
-  border-radius: 12px;
-}
-
-/* Micro-interaction buttons */
-.civic-btn-primary {
-  background-color: #102A43;
+/* Primary Logo Buttons */
+.btn-jan-blue {
+  background-color: #0F4C81;
   color: #FFFFFF;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
   transition: all 0.15s ease-out;
 }
-
-.civic-btn-primary:hover {
-  background-color: #1F2933;
-  transform: translateY(-1px);
+.btn-jan-blue:hover {
+  background-color: #0B2545;
 }
 
-.civic-btn-accent {
-  background-color: #D97706;
+.btn-jan-orange {
+  background-color: #EA580C;
   color: #FFFFFF;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
   transition: all 0.15s ease-out;
 }
-
-.civic-btn-accent:hover {
-  background-color: #B45309;
-  transform: translateY(-1px);
+.btn-jan-orange:hover {
+  background-color: #C2410C;
 }
 
 /* Custom Scrollbar */
@@ -68,21 +65,9 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F8F7F2;
+  background: #F8FAFC;
 }
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
   border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
-}
-
-@keyframes smoothReveal {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-editorial-reveal {
-  animation: smoothReveal 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Mic, MicOff, Search, ArrowRight, ShieldCheck, FileText, ExternalLink, AlertCircle, RefreshCw, CheckCircle2, Lock, Sparkles, Building2, UserCheck, ShieldAlert, GraduationCap, Heart, Briefcase, Home } from 'lucide-react';
+import { Mic, MicOff, Search, ArrowRight, ShieldCheck, FileText, ExternalLink, AlertCircle, RefreshCw, Home, CheckCircle2, Lock, Sparkles, Building2, UserCheck, ShieldAlert, GraduationCap, Heart, Briefcase, MapPin } from 'lucide-react';
+import logoImg from '../assets/logo.jpg';
 import { LOCALITIES } from '../data/mockLocalityData';
 import { getLocalityPortal } from '../data/localityUrls';
 
@@ -23,6 +24,17 @@ export default function ProblemSearch({
 
   const activeLocalityObj = LOCALITIES.find(l => l.id === selectedLocality) || LOCALITIES[0];
 
+  const categoryBlocks = [
+    { name: 'Education Services', desc: 'Scholarships, fee waivers & loans', count: '14 Services', icon: GraduationCap },
+    { name: 'Healthcare Services', desc: 'Free hospital cover & OPD slots', count: '9 Services', icon: Heart },
+    { name: 'Employment Services', desc: 'Skill development & worker IDs', count: '18 Services', icon: Briefcase },
+    { name: 'Housing & Utility Services', desc: 'Electricity, water & meter transfers', count: '12 Services', icon: Home },
+    { name: 'Agriculture Services', desc: 'PM-KISAN direct income & insurance', count: '15 Services', icon: Building2 },
+    { name: 'Women & Child Services', desc: 'Maternal benefits & savings', count: '11 Services', icon: ShieldCheck },
+    { name: 'Senior Citizen Services', desc: 'Pensions & assisted living devices', count: '8 Services', icon: UserCheck },
+    { name: 'Disability Assistance Services', desc: 'Assistive devices & monthly aid', count: '7 Services', icon: ShieldAlert }
+  ];
+
   const handleSearchSubmit = (e) => {
     e?.preventDefault();
     if (query.trim()) {
@@ -32,7 +44,7 @@ export default function ProblemSearch({
 
   const toggleVoiceInput = () => {
     if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert("Voice input is not supported in this browser. Please type your custom query.");
+      alert("Voice input is not supported in this browser. Please type your query.");
       return;
     }
 
@@ -60,7 +72,6 @@ export default function ProblemSearch({
     recognition.onend = () => setIsListening(false);
   };
 
-  // Standout Hackathon Hero Feature: DigiLocker 1-Click Auto-Fill & Instant Application Engine
   const handleDigiLockerAutoFillSubmit = (scheme) => {
     const generatedId = 'DIGI-APP-' + Math.floor(100000 + Math.random() * 900000);
     setAppliedId(generatedId);
@@ -79,55 +90,58 @@ export default function ProblemSearch({
   };
 
   return (
-    <div className="space-y-10 pb-20 text-[#1F2933]">
+    <div className="space-y-14 pb-20 text-[#0B2545]">
       
-      {/* HERO SECTION MATCHING MASTER DESIGN PROMPT */}
-      <div className="bg-[#102A43] text-white p-8 sm:p-14 rounded-lg space-y-8 relative shadow-md">
+      {/* 1. HERO SECTION WITH OFFICIAL LOGO IMAGE */}
+      <div className="bg-[#0B2545] text-white p-8 sm:p-14 rounded-xl space-y-8 relative shadow-lg">
         
-        <div className="max-w-3xl space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded bg-[#0B1D2D] border border-[#1A3652] text-amber-400 text-xs font-semibold">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>NATIONAL CITIZEN SERVICE DISCOVERY PORTAL</span>
+        <div className="max-w-3xl space-y-5">
+          <div className="flex items-center space-x-3">
+            <img src={logoImg} alt="Jan Sahayak Emblem" className="w-12 h-12 rounded-lg bg-white p-1 object-contain border-2 border-[#EA580C]" />
+            <div>
+              <span className="text-xs font-bold text-[#EA580C] tracking-widest uppercase">जन सहायक • JAN SHAYAK</span>
+              <h3 className="text-sm font-semibold text-slate-300">HELPING THE PEOPLE</h3>
+            </div>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white font-editorial leading-tight">
-            Discover the support available to you.
+            Discover the Services Available to You.
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-sans max-w-2xl">
-            Enter any custom question or problem statement. Our real-time AI will scan verified central and state schemes for your exact requirements.
+            Explore government services, benefits and rights based on your needs, eligibility and location.
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
             <button
               onClick={onNavigateWizard}
-              className="px-6 py-3 bg-[#D97706] hover:bg-[#B45309] text-white font-bold text-xs rounded-md shadow transition flex items-center space-x-2"
+              className="px-6 py-3 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-2"
             >
-              <span>Find Schemes for Me</span>
+              <span>Find Services for Me</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
             <button
               onClick={onOpenDigiLocker}
-              className="px-6 py-3 bg-[#167D5A] hover:bg-[#0F5C41] text-white border border-[#167D5A] font-bold text-xs rounded-md transition flex items-center space-x-2"
+              className="px-6 py-3 bg-[#0F4C81] hover:bg-slate-800 text-white border border-slate-700 font-bold text-xs rounded-lg transition flex items-center space-x-2"
             >
-              <Lock className="w-4 h-4" />
+              <Lock className="w-4 h-4 text-[#EA580C]" />
               <span>Connect DigiLocker 🔒</span>
             </button>
           </div>
         </div>
 
-        {/* Real-time Custom Search Input Form */}
+        {/* Search Bar Input Form */}
         <form onSubmit={handleSearchSubmit} className="max-w-3xl">
-          <div className="relative flex items-center bg-white rounded-md p-2 shadow-lg border border-slate-200">
+          <div className="relative flex items-center bg-white rounded-lg p-2 shadow-lg border border-slate-200">
             <Search className="w-5 h-5 text-slate-400 ml-3 shrink-0" />
             
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Enter your custom question (e.g. 'I need senior citizen health cover & pension')..."
-              className="w-full bg-transparent px-3 py-2 text-sm text-[#1F2933] placeholder-slate-400 focus:outline-none font-medium"
+              placeholder="Search government services, benefits, departments or utility transfers..."
+              className="w-full bg-transparent px-3 py-2 text-sm text-[#0B2545] placeholder-slate-400 focus:outline-none font-medium"
             />
 
             <button
@@ -138,109 +152,141 @@ export default function ProblemSearch({
                 isListening ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#D97706]" />}
+              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#EA580C]" />}
             </button>
 
             <button
               type="submit"
               disabled={loading}
-              className="ml-2 px-6 py-2.5 bg-[#102A43] hover:bg-[#1F2933] text-white font-bold text-xs rounded-md flex items-center space-x-1.5 transition shrink-0"
+              className="ml-2 px-6 py-2.5 bg-[#0F4C81] hover:bg-[#0B2545] text-white font-bold text-xs rounded-lg flex items-center space-x-1.5 transition shrink-0"
             >
-              {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <span>Search AI</span>}
+              {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <span>Search Services</span>}
             </button>
           </div>
         </form>
 
-        <div className="text-xs text-slate-300 pt-1 flex items-center justify-between border-t border-[#1A3652] max-w-3xl">
+        <div className="text-xs text-slate-300 pt-1 flex items-center justify-between border-t border-slate-800 max-w-3xl">
           <span>Active Locality: <strong>{activeLocalityObj.name}</strong></span>
-          <span className="text-emerald-400 font-semibold">Real-Time Search Enabled</span>
+          <span className="text-[#059669] font-semibold">Grounded AI Search Enabled</span>
         </div>
 
       </div>
 
-      {/* REAL-TIME AI SEARCH RESULTS */}
+      {/* 2. CATEGORY SECTOR NAVIGATION WITH CLEAR SPACIOUS PADDING */}
+      <div className="space-y-6 service-section">
+        <div>
+          <span className="text-[11px] font-bold text-[#EA580C] uppercase tracking-widest">CATEGORIES</span>
+          <h3 className="text-2xl font-bold text-[#0B2545] font-editorial mt-0.5">What services are you looking for?</h3>
+          <p className="text-xs text-[#64748B]">Browse services grouped by category and life requirements.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {categoryBlocks.map((cat, idx) => {
+            const Icon = cat.icon;
+            return (
+              <div 
+                key={idx}
+                onClick={() => onSearch(cat.name)}
+                className="jan-card p-5 rounded-xl cursor-pointer space-y-3"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-[#0F4C81]">
+                    <Icon className="w-5 h-5 text-[#0F4C81]" />
+                  </div>
+                  <span className="text-[10px] font-mono font-semibold text-[#64748B] bg-slate-100 px-2 py-0.5 rounded">{cat.count}</span>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-bold text-[#0B2545] font-editorial">{cat.name}</h4>
+                  <p className="text-xs text-[#64748B] mt-0.5">{cat.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 3. SEARCH RESULTS DISPLAY (LARGE HORIZONTAL ROWS FOR SERVICES) */}
       {searchResults && (
-        <div className="space-y-6 pt-4 border-t border-[#E7E5DF]">
+        <div className="space-y-6 service-section">
           
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-[11px] font-bold text-[#167D5A] uppercase tracking-wider">REAL-TIME AI SEARCH RESULTS</span>
-              <h3 className="text-2xl font-bold text-[#102A43] font-editorial mt-0.5">Matching Verified Schemes & Requirements</h3>
+              <span className="text-[11px] font-bold text-[#059669] uppercase tracking-wider">VERIFIED SERVICES CATALOGUE</span>
+              <h3 className="text-2xl font-bold text-[#0B2545] font-editorial mt-0.5">Government Services You May Be Eligible to Explore</h3>
             </div>
-            <span className="text-xs px-3 py-1 rounded-full bg-[#102A43]/10 text-[#102A43] font-mono font-bold">
-              {searchResults.matchedSchemes?.length || 0} Matches Found
+            <span className="text-xs px-3 py-1 rounded-full bg-[#0F4C81]/10 text-[#0F4C81] font-mono font-bold">
+              {searchResults.matchedSchemes?.length || 0} Services Found
             </span>
           </div>
 
           {appliedId && (
-            <div className="p-4 bg-[#167D5A]/10 border border-[#167D5A]/30 text-[#167D5A] text-xs font-bold rounded-md flex items-center space-x-2 animate-editorial-reveal">
+            <div className="p-4 bg-[#059669]/10 border border-[#059669]/30 text-[#059669] text-xs font-bold rounded-lg flex items-center space-x-2 animate-editorial-reveal">
               <CheckCircle2 className="w-5 h-5" />
-              <span>DigiLocker 1-Click Instant Application Submitted! Ref ID: {appliedId} (Tracking live on Citizen Dashboard)</span>
+              <span>DigiLocker 1-Click Service Application Submitted! Ref ID: {appliedId}</span>
             </div>
           )}
 
-          {/* Horizontal Rows for Schemes */}
-          <div className="space-y-4">
+          {/* Horizontal Rows */}
+          <div className="space-y-5">
             {searchResults.matchedSchemes?.map((scheme) => {
               const localityPortal = getLocalityPortal(scheme.sector || scheme.category, selectedLocality);
 
               return (
-                <div key={scheme.id} className="civic-card p-6 rounded-lg space-y-4">
+                <div key={scheme.id} className="jan-card p-6 rounded-xl space-y-4">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                     <div className="space-y-1">
                       <div className="flex items-center space-x-2">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#102A43]/10 text-[#102A43] uppercase tracking-wider">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#0F4C81]/10 text-[#0F4C81] uppercase tracking-wider">
                           {scheme.sector || scheme.category}
                         </span>
-                        <span className="text-xs text-[#52606D] font-medium">{scheme.department}</span>
+                        <span className="text-xs text-[#64748B] font-medium">{scheme.department}</span>
                       </div>
-                      <h4 className="text-lg font-bold text-[#1F2933] font-editorial">{scheme.name}</h4>
+                      <h4 className="text-lg font-bold text-[#0B2545] font-editorial">{scheme.name}</h4>
                     </div>
 
-                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#167D5A]/10 text-[#167D5A] border border-[#167D5A]/30 self-start md:self-auto">
+                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#059669]/10 text-[#059669] border border-[#059669]/30 self-start md:self-auto">
                       ● Likely Eligible
                     </span>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#52606D] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
                     {scheme.shortDescription || scheme.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-4 text-xs text-[#52606D] pt-2 border-t border-[#E7E5DF]">
+                  <div className="flex flex-wrap gap-4 text-xs text-[#64748B] pt-2 border-t border-[#E2E8F0]">
                     <div>Official Source: <strong>{scheme.verifiedSource || 'Government Portal'}</strong></div>
                     <div>Data Owner: <strong>{scheme.dataOwner || 'Department'}</strong></div>
-                    <div>Verified: <strong>{scheme.lastVerified || '2026-09-20'}</strong></div>
+                    <div>Last Verified: <strong>{scheme.lastVerified || '2026-09-20'}</strong></div>
                   </div>
 
                   {scheme.potentialObstacle && (
-                    <div className="p-3 bg-[#D97706]/10 border border-[#D97706]/30 rounded-md flex items-center justify-between text-xs">
-                      <div className="flex items-center space-x-2 text-[#D97706]">
+                    <div className="p-3 bg-[#EA580C]/10 border border-[#EA580C]/30 rounded-lg flex items-center justify-between text-xs">
+                      <div className="flex items-center space-x-2 text-[#EA580C]">
                         <AlertCircle className="w-4 h-4 shrink-0" />
                         <span>Missing document? <strong>{scheme.potentialObstacle}</strong></span>
                       </div>
                       <button
                         onClick={() => onResolveObstacle(scheme.potentialObstacle)}
-                        className="px-3 py-1 bg-[#D97706] hover:bg-[#B45309] text-white font-bold text-xs rounded-md transition"
+                        className="px-3 py-1 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs rounded-md transition"
                       >
                         Solve Obstacle
                       </button>
                     </div>
                   )}
 
-                  {/* Actions & Hackathon Standout Feature */}
                   <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => onSelectScheme(scheme)}
-                        className="px-4 py-2 bg-[#102A43] hover:bg-[#1F2933] text-white text-xs font-bold rounded-md transition"
+                        className="px-4 py-2 bg-[#0F4C81] hover:bg-[#0B2545] text-white text-xs font-bold rounded-lg transition"
                       >
-                        View Details & Checklist
+                        View Service Details
                       </button>
 
-                      {/* Standout Hackathon Feature: DigiLocker 1-Click Auto-Fill */}
                       <button
                         onClick={() => handleDigiLockerAutoFillSubmit(scheme)}
-                        className="px-4 py-2 bg-[#167D5A] hover:bg-[#0F5C41] text-white text-xs font-bold rounded-md transition flex items-center space-x-1 shadow-sm"
+                        className="px-4 py-2 bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold rounded-lg transition flex items-center space-x-1 shadow-sm"
                       >
                         <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                         <span>DigiLocker 1-Click Auto-Fill & Apply</span>
@@ -251,10 +297,10 @@ export default function ProblemSearch({
                       href={localityPortal.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3.5 py-2 bg-white border border-[#E7E5DF] text-[#1F2933] text-xs font-semibold rounded-md hover:bg-slate-50 transition flex items-center space-x-1"
+                      className="px-3.5 py-2 bg-white border border-[#E2E8F0] text-[#0B2545] text-xs font-semibold rounded-lg hover:bg-slate-50 transition flex items-center space-x-1"
                     >
                       <span>{localityPortal.name}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-[#52606D]" />
+                      <ExternalLink className="w-3.5 h-3.5 text-[#64748B]" />
                     </a>
                   </div>
 
@@ -265,6 +311,32 @@ export default function ProblemSearch({
 
         </div>
       )}
+
+      {/* 4. CLEAN MINIMAL MOBILE-OPTIMIZED FOOTER (NO BLOATED TOPIC LISTS) */}
+      <footer className="bg-[#0B2545] text-white rounded-xl p-6 sm:p-8 space-y-4 mt-12 shadow-lg">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div className="flex items-center space-x-3">
+            <img src={logoImg} alt="Jan Sahayak Logo" className="w-10 h-10 rounded-lg object-contain bg-white p-0.5 border border-amber-400" />
+            <div>
+              <h4 className="font-bold text-base text-white font-editorial">Jan Sahayak (जन सहायक)</h4>
+              <p className="text-[11px] text-amber-300 font-semibold uppercase">HELPING THE PEOPLE</p>
+            </div>
+          </div>
+
+          <div className="text-xs text-slate-300 space-x-4 font-medium">
+            <span>National Citizen Portal</span>
+            <span>|</span>
+            <span>Privacy & Terms</span>
+            <span>|</span>
+            <span>Accessibility</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
+          <span>Official Public Digital Service Discovery Platform. Government of India.</span>
+          <span>Last Verified: September 2026</span>
+        </div>
+      </footer>
 
     </div>
   );

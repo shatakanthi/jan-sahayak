@@ -59,7 +59,7 @@ export default function App() {
   const t = (key) => getTranslation(currentLang, key);
 
   useEffect(() => {
-    document.title = "Jan Sahayak | Government Scheme Discovery & DigiLocker Portal";
+    document.title = "Jan Sahayak | Government Service Discovery & DigiLocker Portal";
   }, []);
 
   useEffect(() => {
