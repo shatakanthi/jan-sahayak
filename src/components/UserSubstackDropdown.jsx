@@ -72,6 +72,12 @@ export default function UserSubstackDropdown({
             <div className="text-[10px] text-[#324a60] font-mono pt-1">
               Aadhaar: {userSession?.aadhaarNo || 'Not Provided'} {userSession?.age ? `(Age: ${userSession.age})` : ''}
             </div>
+            {userSession?.fullAddress && (
+              <div className="text-[10px] text-[#74744a] pt-1.5 border-t border-[#896e6a]/30 mt-1 flex items-start space-x-1 font-medium">
+                <MapPin className="w-3 h-3 text-[#e8ab16] shrink-0 mt-0.5" />
+                <span className="line-clamp-2">{userSession.fullAddress}</span>
+              </div>
+            )}
 
             <button
               onClick={() => { setIsOpen(false); onOpenLogin(); }}

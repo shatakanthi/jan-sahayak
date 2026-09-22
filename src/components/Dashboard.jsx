@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MOCK_CITIZEN_ACCOUNT } from '../data/mockCitizenAccount';
-import { UserCheck, Clock, CreditCard, Bookmark, ShieldCheck, Download, FileText, CheckCircle2, Lock, Sparkles, Filter } from 'lucide-react';
+import { LOCALITIES } from '../data/mockLocalityData';
+import { UserCheck, Clock, CreditCard, Bookmark, ShieldCheck, Download, FileText, CheckCircle2, Lock, Sparkles, Filter, MapPin, Phone, Mail, Building2 } from 'lucide-react';
 
 export default function Dashboard({ 
   accountData = MOCK_CITIZEN_ACCOUNT, 
@@ -8,6 +9,7 @@ export default function Dashboard({
   onSelectScheme,
   onOpenDigiLocker,
   userSession,
+  selectedLocality = 'bangalore-urban',
   t = (k) => k
 }) {
   // Page 1: Overview & DigiLocker Vault | Page 2: Applications & Excel Export
@@ -42,6 +44,7 @@ export default function Dashboard({
 
   const displayName = userSession?.name || accountData.name;
   const displayAadhaar = userSession?.aadhaarNo || '9918-2049-8812';
+  const activeLocalityObj = LOCALITIES.find(l => l.id === selectedLocality) || LOCALITIES[0];
 
   return (
     <div className="space-y-6 pb-24 text-[#383b3d]">
@@ -53,7 +56,17 @@ export default function Dashboard({
           <h2 className="text-2xl font-bold text-[#324a60] font-editorial">
             Welcome back, {displayName}
           </h2>
-          <p className="text-xs text-[#896e6a]">Citizen ID: {accountData.citizenId} • {accountData.city}</p>
+          <p className="text-xs text-[#896e6a] flex items-center space-x-1.5 flex-wrap mt-0.5">
+            <span>Citizen ID: {accountData.citizenId}</span>
+            <span>•</span>
+            <span>Locality: <strong>{activeLocalityObj.name}</strong></span>
+          </p>
+          {userSession?.fullAddress && (
+            <p className="text-xs text-[#74744a] font-medium mt-1 flex items-center space-x-1">
+              <MapPin className="w-3.5 h-3.5 text-[#e8ab16] shrink-0" />
+              <span>{userSession.fullAddress}</span>
+            </p>
+          )}
         </div>
 
         {/* Two Page Selector Buttons */}
@@ -138,6 +151,97 @@ export default function Dashboard({
               </div>
             </div>
 
+          </div>
+
+          {/* Local Municipal Commission Head & Corporator Directory Card */}
+          <div className="jan-card p-6 rounded-xl space-y-4 bg-white border border-[#896e6a] shadow-sm">
+            <div className="flex items-center justify-between border-b border-[#896e6a]/30 pb-3">
+              <div>
+                <span className="text-[10px] font-bold text-[#e8ab16] uppercase tracking-wider">LOCAL GOVERNMENT CONTACT DIRECTORY</span>
+                <h3 className="text-base font-bold text-[#324a60] font-editorial mt-0.5">Municipal Officials for {activeLocalityObj.name}</h3>
+              </div>
+              <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#324a60]/10 text-[#324a60] border border-[#324a60]/20">
+                {activeLocalityObj.state}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              {/* Municipal Commissioner */}
+              {activeLocalityObj.commissioner && (
+                <div className="p-3 bg-[#F8F9FA] rounded-lg border border-[#896e6a]/40 space-y-1.5">
+                  <div className="flex items-center space-x-1.5 font-bold text-[#324a60]">
+                    <Building2 className="w-4 h-4 text-[#e8ab16]" />
+                    <span>{activeLocalityObj.commissioner.title}</span>
+                  </div>
+                  <div className="text-sm font-bold text-[#383b3d]">{activeLocalityObj.commissioner.name}</div>
+                  <div className="text-[11px] text-[#896e6a] flex items-center space-x-2 pt-1 border-t border-[#896e6a]/20">
+                    <a href={`tel:${activeLocalityObj.commissioner.phone}`} className="hover:text-[#324a60] flex items-center space-x-1 font-mono">
+                      <Phone className="w-3 h-3 text-[#74744a]" />
+                      <span>{activeLocalityObj.commissioner.phone}</span>
+                    </a>
+                    {activeLocalityObj.commissioner.email && (
+                      <a href={`mailto:${activeLocalityObj.commissioner.email}`} className="hover:text-[#324a60] flex items-center space-x-1 font-mono">
+                        <Mail className="w-3 h-3 text-[#74744a]" />
+                        <span className="truncate max-w-[130px]">{activeLocalityObj.commissioner.email}</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Ward Corporator */}
+              {activeLocalityObj.corporator && (
+                <div className="p-3 bg-[#F8F9FA] rounded-lg border border-[#896e6a]/40 space-y-1.5">
+                  <div className="flex items-center space-x-1.5 font-bold text-[#324a60]">
+                    <UserCheck className="w-4 h-4 text-[#e8ab16]" />
+                    <span>{activeLocalityObj.corporator.title}</span>
+                  </div>
+                  <div className="text-sm font-bold text-[#383b3d]">{activeLocalityObj.corporator.name}</div>
+                  <div className="text-[10px] text-[#74744a]">{activeLocalityObj.corporator.ward}</div>
+                  <div className="text-[11px] text-[#896e6a] flex items-center space-x-2 pt-1 border-t border-[#896e6a]/20">
+                    <a href={`tel:${activeLocalityObj.corporator.phone}`} className="hover:text-[#324a60] flex items-center space-x-1 font-mono font-bold">
+                      <Phone className="w-3 h-3 text-[#74744a]" />
+                      <span>{activeLocalityObj.corporator.phone}</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* Sarpanch / Panchayat President */}
+              {activeLocalityObj.sarpanch && (
+                <div className="p-3 bg-[#F8F9FA] rounded-lg border border-[#896e6a]/40 space-y-1.5">
+                  <div className="flex items-center space-x-1.5 font-bold text-[#324a60]">
+                    <Building2 className="w-4 h-4 text-[#e8ab16]" />
+                    <span>{activeLocalityObj.sarpanch.title}</span>
+                  </div>
+                  <div className="text-sm font-bold text-[#383b3d]">{activeLocalityObj.sarpanch.name}</div>
+                  <div className="text-[11px] text-[#896e6a] flex items-center space-x-2 pt-1 border-t border-[#896e6a]/20">
+                    <a href={`tel:${activeLocalityObj.sarpanch.phone}`} className="hover:text-[#324a60] flex items-center space-x-1 font-mono">
+                      <Phone className="w-3 h-3 text-[#74744a]" />
+                      <span>{activeLocalityObj.sarpanch.phone}</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* Ward Officer */}
+              {activeLocalityObj.wardOfficer && (
+                <div className="p-3 bg-[#F8F9FA] rounded-lg border border-[#896e6a]/40 space-y-1.5">
+                  <div className="flex items-center space-x-1.5 font-bold text-[#324a60]">
+                    <MapPin className="w-4 h-4 text-[#e8ab16]" />
+                    <span>Ward Officer & Help Hub</span>
+                  </div>
+                  <div className="text-sm font-bold text-[#383b3d]">{activeLocalityObj.wardOfficer.name}</div>
+                  <div className="text-[10px] text-[#74744a] truncate">{activeLocalityObj.wardOfficer.office}</div>
+                  <div className="text-[11px] text-[#896e6a] flex items-center space-x-2 pt-1 border-t border-[#896e6a]/20">
+                    <a href={`tel:${activeLocalityObj.wardOfficer.phone}`} className="hover:text-[#324a60] flex items-center space-x-1 font-mono font-bold">
+                      <Phone className="w-3 h-3 text-[#74744a]" />
+                      <span>{activeLocalityObj.wardOfficer.phone}</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Pending Bills Grid */}

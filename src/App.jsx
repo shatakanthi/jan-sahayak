@@ -220,6 +220,7 @@ export default function App() {
                 onSelectScheme={(scheme) => setSelectedScheme(scheme)}
                 onOpenDigiLocker={() => setIsDigiLockerModalOpen(true)}
                 userSession={userSession}
+                selectedLocality={selectedLocality}
                 t={t}
               />
             </div>

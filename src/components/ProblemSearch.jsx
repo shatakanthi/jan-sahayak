@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Mic, MicOff, Search, ArrowRight, ShieldCheck, FileText, ExternalLink, AlertCircle, RefreshCw, Home, CheckCircle2, Lock, Sparkles, Building2, UserCheck, ShieldAlert, GraduationCap, Heart, Briefcase, MapPin } from 'lucide-react';
+import { Mic, MicOff, Search, ArrowRight, ShieldCheck, FileText, ExternalLink, AlertCircle, RefreshCw, Home, CheckCircle2, Lock, Sparkles, Building2, UserCheck, ShieldAlert, GraduationCap, Heart, Briefcase, MapPin, Phone, Mail } from 'lucide-react';
 import logoImg from '../assets/logo.jpg';
 import { LOCALITIES } from '../data/mockLocalityData';
 import { getLocalityPortal } from '../data/localityUrls';
@@ -187,7 +187,97 @@ export default function ProblemSearch({
 
       </div>
 
-      {/* 2. CATEGORY SECTOR NAVIGATION WITH CLEAR SPACIOUS PADDING */}
+      {/* 2. LOCAL GOVERNMENT MUNICIPAL COMMISSION & CORPORATOR DIRECTORY */}
+      <div className="space-y-4 service-section">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#896e6a]/30 pb-3">
+          <div>
+            <span className="text-[11px] font-bold text-[#e8ab16] uppercase tracking-widest">LOCAL CIVIC DIRECTORY</span>
+            <h3 className="text-xl font-bold text-[#324a60] font-editorial mt-0.5">Municipal Officials & Corporator for {activeLocalityObj.name}</h3>
+          </div>
+          <span className="text-xs font-bold px-3 py-1 rounded bg-[#74744a]/10 text-[#74744a] border border-[#74744a]/30">
+            📍 Active Region: {activeLocalityObj.state}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          {/* Municipal Commissioner */}
+          {activeLocalityObj.commissioner && (
+            <div className="jan-card p-4 rounded-xl space-y-2 bg-white border border-[#896e6a] hover:border-[#e8ab16] hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+              <div className="flex items-center space-x-2 text-[#324a60]">
+                <Building2 className="w-4 h-4 text-[#e8ab16]" />
+                <span className="font-bold text-[11px] uppercase tracking-wider">{activeLocalityObj.commissioner.title}</span>
+              </div>
+              <h4 className="text-sm font-bold text-[#383b3d] font-editorial">{activeLocalityObj.commissioner.name}</h4>
+              <div className="pt-2 border-t border-[#896e6a]/20 flex items-center justify-between text-[11px]">
+                <a href={`tel:${activeLocalityObj.commissioner.phone}`} className="text-[#324a60] hover:text-[#e8ab16] font-mono font-bold flex items-center space-x-1">
+                  <Phone className="w-3.5 h-3.5 text-[#74744a]" />
+                  <span>{activeLocalityObj.commissioner.phone}</span>
+                </a>
+                {activeLocalityObj.commissioner.email && (
+                  <a href={`mailto:${activeLocalityObj.commissioner.email}`} title={activeLocalityObj.commissioner.email} className="text-[#74744a] hover:text-[#324a60]">
+                    <Mail className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Corporator */}
+          {activeLocalityObj.corporator && (
+            <div className="jan-card p-4 rounded-xl space-y-2 bg-white border border-[#896e6a] hover:border-[#e8ab16] hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+              <div className="flex items-center space-x-2 text-[#324a60]">
+                <UserCheck className="w-4 h-4 text-[#e8ab16]" />
+                <span className="font-bold text-[11px] uppercase tracking-wider">{activeLocalityObj.corporator.title}</span>
+              </div>
+              <h4 className="text-sm font-bold text-[#383b3d] font-editorial">{activeLocalityObj.corporator.name}</h4>
+              <p className="text-[10px] text-[#74744a]">{activeLocalityObj.corporator.ward}</p>
+              <div className="pt-2 border-t border-[#896e6a]/20 flex items-center justify-between text-[11px]">
+                <a href={`tel:${activeLocalityObj.corporator.phone}`} className="text-[#324a60] hover:text-[#e8ab16] font-mono font-bold flex items-center space-x-1">
+                  <Phone className="w-3.5 h-3.5 text-[#74744a]" />
+                  <span>{activeLocalityObj.corporator.phone}</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* Sarpanch / Pradhan */}
+          {activeLocalityObj.sarpanch && (
+            <div className="jan-card p-4 rounded-xl space-y-2 bg-white border border-[#896e6a] hover:border-[#e8ab16] hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+              <div className="flex items-center space-x-2 text-[#324a60]">
+                <Building2 className="w-4 h-4 text-[#e8ab16]" />
+                <span className="font-bold text-[11px] uppercase tracking-wider">{activeLocalityObj.sarpanch.title}</span>
+              </div>
+              <h4 className="text-sm font-bold text-[#383b3d] font-editorial">{activeLocalityObj.sarpanch.name}</h4>
+              <div className="pt-2 border-t border-[#896e6a]/20 flex items-center justify-between text-[11px]">
+                <a href={`tel:${activeLocalityObj.sarpanch.phone}`} className="text-[#324a60] hover:text-[#e8ab16] font-mono font-bold flex items-center space-x-1">
+                  <Phone className="w-3.5 h-3.5 text-[#74744a]" />
+                  <span>{activeLocalityObj.sarpanch.phone}</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* Ward Officer */}
+          {activeLocalityObj.wardOfficer && (
+            <div className="jan-card p-4 rounded-xl space-y-2 bg-white border border-[#896e6a] hover:border-[#e8ab16] hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+              <div className="flex items-center space-x-2 text-[#324a60]">
+                <MapPin className="w-4 h-4 text-[#e8ab16]" />
+                <span className="font-bold text-[11px] uppercase tracking-wider">Ward Officer & Hub</span>
+              </div>
+              <h4 className="text-sm font-bold text-[#383b3d] font-editorial">{activeLocalityObj.wardOfficer.name}</h4>
+              <p className="text-[10px] text-[#74744a] truncate">{activeLocalityObj.wardOfficer.office}</p>
+              <div className="pt-2 border-t border-[#896e6a]/20 flex items-center justify-between text-[11px]">
+                <a href={`tel:${activeLocalityObj.wardOfficer.phone}`} className="text-[#324a60] hover:text-[#e8ab16] font-mono font-bold flex items-center space-x-1">
+                  <Phone className="w-3.5 h-3.5 text-[#74744a]" />
+                  <span>{activeLocalityObj.wardOfficer.phone}</span>
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* 3. CATEGORY SECTOR NAVIGATION WITH CLEAR SPACIOUS PADDING */}
       <div className="space-y-6 service-section">
         <div>
           <span className="text-[11px] font-bold text-[#e8ab16] uppercase tracking-widest">CATEGORIES</span>
@@ -202,7 +292,7 @@ export default function ProblemSearch({
               <div 
                 key={idx}
                 onClick={() => handleCategoryClick(cat.name)}
-                className="jan-card p-5 rounded-xl cursor-pointer space-y-3 bg-white border border-[#896e6a] hover:border-[#e8ab16] shadow-sm hover:shadow-md transition"
+                className="jan-card p-5 rounded-xl cursor-pointer space-y-3 bg-white border border-[#896e6a] hover:border-[#e8ab16] hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
               >
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-lg bg-[#324a60]/10 border border-[#324a60]/20 flex items-center justify-center text-[#324a60]">
@@ -329,8 +419,10 @@ export default function ProblemSearch({
         )}
       </div>
 
-      {/* 4. CLEAN MINIMAL MOBILE-OPTIMIZED FOOTER (NO BLOATED TOPIC LISTS) */}
-      <footer className="bg-[#324a60] text-white rounded-xl p-6 sm:p-8 space-y-4 mt-12 shadow-lg border border-[#896e6a]">
+      {/* 4. COMPREHENSIVE LOCALITY MUNICIPAL & CIVIC HELPLINE FOOTER */}
+      <footer className="bg-[#324a60] text-white rounded-xl p-6 sm:p-8 space-y-6 mt-12 shadow-lg border border-[#896e6a]">
+        
+        {/* Footer Top Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#896e6a]/40 pb-4">
           <div className="flex items-center space-x-3">
             <img src={logoImg} alt="Jan Sahayak Logo" className="w-10 h-10 rounded-lg object-contain bg-white p-0.5 border border-[#e8ab16]" />
@@ -340,18 +432,87 @@ export default function ProblemSearch({
             </div>
           </div>
 
-          <div className="text-xs text-slate-200 space-x-4 font-medium">
+          <div className="text-xs text-slate-200 space-x-4 font-medium flex items-center flex-wrap">
             <span>National Citizen Portal</span>
             <span>|</span>
-            <span>Privacy & Terms</span>
+            <span>Privacy Policy</span>
             <span>|</span>
             <span>Accessibility</span>
+            <span>|</span>
+            <span>DigiLocker Certified</span>
           </div>
+        </div>
+
+        {/* Footer Locality Municipal Contacts & Emergency Helplines Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs border-b border-[#896e6a]/40 pb-6">
+          
+          {/* Active Locality Municipal Contacts */}
+          <div className="space-y-2">
+            <h5 className="font-bold text-[#e8ab16] uppercase tracking-wider text-[11px] flex items-center space-x-1.5">
+              <Building2 className="w-3.5 h-3.5 text-[#e8ab16]" />
+              <span>Locality Municipal Office — {activeLocalityObj.name}</span>
+            </h5>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+              {activeLocalityObj.commissioner && (
+                <div className="bg-[#243545] p-2.5 rounded-lg border border-[#896e6a]/40 space-y-1">
+                  <span className="text-[#e8ab16] font-bold block">{activeLocalityObj.commissioner.title}</span>
+                  <span className="text-white font-medium block">{activeLocalityObj.commissioner.name}</span>
+                  <a href={`tel:${activeLocalityObj.commissioner.phone}`} className="text-slate-300 hover:text-[#e8ab16] font-mono flex items-center space-x-1 pt-0.5">
+                    <Phone className="w-3 h-3 text-[#e8ab16]" />
+                    <span>{activeLocalityObj.commissioner.phone}</span>
+                  </a>
+                </div>
+              )}
+
+              {activeLocalityObj.corporator && (
+                <div className="bg-[#243545] p-2.5 rounded-lg border border-[#896e6a]/40 space-y-1">
+                  <span className="text-[#e8ab16] font-bold block">{activeLocalityObj.corporator.title}</span>
+                  <span className="text-white font-medium block">{activeLocalityObj.corporator.name}</span>
+                  <a href={`tel:${activeLocalityObj.corporator.phone}`} className="text-slate-300 hover:text-[#e8ab16] font-mono flex items-center space-x-1 pt-0.5">
+                    <Phone className="w-3 h-3 text-[#e8ab16]" />
+                    <span>{activeLocalityObj.corporator.phone}</span>
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Emergency Civic Helplines */}
+          <div className="space-y-2">
+            <h5 className="font-bold text-[#e8ab16] uppercase tracking-wider text-[11px] flex items-center space-x-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#e8ab16]" />
+              <span>Civic Services & Emergency Helplines</span>
+            </h5>
+
+            <div className="grid grid-cols-2 gap-2 text-[11px]">
+              <a href="tel:1912" className="bg-[#243545] p-2 rounded-lg border border-[#896e6a]/40 hover:border-[#e8ab16] transition flex items-center justify-between">
+                <span className="text-slate-200">Electricity Helpline ({activeLocalityObj.discom.split(' ')[0]})</span>
+                <span className="text-[#e8ab16] font-bold font-mono">1912</span>
+              </a>
+
+              <a href="tel:1916" className="bg-[#243545] p-2 rounded-lg border border-[#896e6a]/40 hover:border-[#e8ab16] transition flex items-center justify-between">
+                <span className="text-slate-200">Water Supply ({activeLocalityObj.waterBoard.split(' ')[0]})</span>
+                <span className="text-[#e8ab16] font-bold font-mono">1916</span>
+              </a>
+
+              <a href="tel:112" className="bg-[#243545] p-2 rounded-lg border border-[#896e6a]/40 hover:border-[#e8ab16] transition flex items-center justify-between">
+                <span className="text-slate-200">National Emergency Helpline</span>
+                <span className="text-[#e8ab16] font-bold font-mono">112</span>
+              </a>
+
+              <a href="tel:108" className="bg-[#243545] p-2 rounded-lg border border-[#896e6a]/40 hover:border-[#e8ab16] transition flex items-center justify-between">
+                <span className="text-slate-200">Health & Ambulance Services</span>
+                <span className="text-[#e8ab16] font-bold font-mono">108</span>
+              </a>
+            </div>
+          </div>
+
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-300 gap-2">
           <span>Official Public Digital Service Discovery Platform. Government of India.</span>
-          <span>Last Verified: September 2026</span>
+          <span>Last Verified: September 2026 • Powered by Jan Sahayak AI</span>
         </div>
       </footer>
 

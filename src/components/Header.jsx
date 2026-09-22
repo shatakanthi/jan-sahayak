@@ -29,31 +29,13 @@ export default function Header({
   return (
     <header className="sticky top-0 z-40 bg-[#324a60] text-white shadow-md border-b border-[#896e6a]">
       
-      {/* 1. TOPMOST INSTITUTIONAL STRIP */}
-      <div className="bg-[#243545] text-slate-100 px-4 py-1.5 text-[11px] font-medium border-b border-[#896e6a]/40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <span className="font-semibold text-white">Government of India</span>
-            <span className="text-[#e8ab16]">|</span>
-            <span>National Citizen Services Portal</span>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <span className="text-[#e8ab16] font-semibold flex items-center space-x-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#e8ab16]" />
-              <span>Official Verified Portal</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. MAIN HEADER WITH LOGO IMAGE & USER SUBSTACK DROPDOWN */}
+      {/* MAIN HEADER WITH LOGO IMAGE & USER SUBSTACK DROPDOWN */}
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         
         {/* Logo Image & Branding */}
         <div 
           onClick={() => safeTabChange('search')}
-          className="flex items-center space-x-3 cursor-pointer shrink-0"
+          className="flex items-center space-x-3 cursor-pointer shrink-0 transition-transform hover:scale-105"
         >
           <img 
             src={logoImg} 
@@ -68,29 +50,29 @@ export default function Header({
           </div>
         </div>
 
-        {/* Quiet Top Navigation Links (Terminology: Services & Multilingual support) */}
+        {/* Quiet Top Navigation Links */}
         <nav className="hidden lg:flex items-center space-x-6 text-xs font-semibold text-slate-100">
           <button
             onClick={() => safeTabChange('search')}
-            className={`transition py-1 border-b-2 ${activeTab === 'search' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2 rounded.t' : 'border-transparent hover:text-white'}`}
+            className={`transition-all duration-200 py-1 border-b-2 ${activeTab === 'search' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2.5 rounded-t-md shadow-inner' : 'border-transparent hover:text-[#e8ab16]'}`}
           >
             {t('problemTab') || 'Government Services'}
           </button>
           <button
             onClick={() => safeTabChange('wizard')}
-            className={`transition py-1 border-b-2 ${activeTab === 'wizard' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2 rounded-t' : 'border-transparent hover:text-white'}`}
+            className={`transition-all duration-200 py-1 border-b-2 ${activeTab === 'wizard' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2.5 rounded-t-md shadow-inner' : 'border-transparent hover:text-[#e8ab16]'}`}
           >
             {t('wizardTab') || 'Find Services for Me'}
           </button>
           <button
             onClick={() => safeTabChange('dashboard')}
-            className={`transition py-1 border-b-2 ${activeTab === 'dashboard' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2 rounded-t' : 'border-transparent hover:text-white'}`}
+            className={`transition-all duration-200 py-1 border-b-2 ${activeTab === 'dashboard' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2.5 rounded-t-md shadow-inner' : 'border-transparent hover:text-[#e8ab16]'}`}
           >
             {t('dashboardTab') || 'Citizen Dashboard'}
           </button>
           <button
             onClick={() => safeTabChange('obstacle')}
-            className={`transition py-1 border-b-2 ${activeTab === 'obstacle' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2 rounded-t' : 'border-transparent hover:text-white'}`}
+            className={`transition-all duration-200 py-1 border-b-2 ${activeTab === 'obstacle' ? 'text-[#e8ab16] font-bold border-[#e8ab16] bg-[#e8ab16]/10 px-2.5 rounded-t-md shadow-inner' : 'border-transparent hover:text-[#e8ab16]'}`}
           >
             {t('obstacleTab') || 'Obstacle AI Bot'}
           </button>
