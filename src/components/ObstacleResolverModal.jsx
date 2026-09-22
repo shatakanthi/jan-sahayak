@@ -12,44 +12,44 @@ export default function ObstacleResolverModal({ selectedObstacle, onClose, t }) 
   const currentObstacle = OBSTACLE_MATRIX.find(o => o.missingDocId === activeObstacleId) || OBSTACLE_MATRIX[0];
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-24 text-[#383b3d]">
       
       {/* Hero Badge */}
       <div className="text-center space-y-2 pt-2">
-        <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold">
-          <AlertTriangle className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-          <span>HERO FEATURE: Obstacle Resolver</span>
+        <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#e8ab16]/15 border border-[#e8ab16]/40 text-[#383b3d] text-xs font-bold">
+          <AlertTriangle className="w-3.5 h-3.5 text-[#e8ab16]" />
+          <span>OBSTACLE RESOLVER & ALTERNATIVES AI</span>
         </div>
-        <h2 className="text-xl font-bold text-white">Don't Let Missing Documents Stop You</h2>
-        <p className="text-xs text-slate-400 max-w-md mx-auto">
-          Citizens often get stuck when they lack specific proof. Chat with our Obstacle AI Bot or browse acceptable alternative documents.
+        <h2 className="text-2xl font-bold text-[#324a60] font-editorial">Don't Let Missing Documents Stop You</h2>
+        <p className="text-xs text-[#896e6a] max-w-md mx-auto">
+          Citizens often get stuck when they lack specific proof. Chat with our Obstacle AI Assistant or browse officially acceptable alternative documents.
         </p>
       </div>
 
       {/* Switch between Obstacle AI Chatbot & Matrix View */}
       <div className="flex justify-center">
-        <div className="bg-slate-900 p-1 rounded-2xl border border-slate-800 flex space-x-1">
+        <div className="bg-[#896e6a]/20 p-1.5 rounded-xl border border-[#896e6a]/40 flex space-x-1">
           <button
             onClick={() => setActiveViewMode('chatbot')}
-            className={`px-4 py-2 text-xs font-bold rounded-xl transition flex items-center space-x-2 ${
+            className={`px-4 py-2 text-xs font-bold rounded-lg transition flex items-center space-x-2 ${
               activeViewMode === 'chatbot'
-                ? 'bg-amber-500 text-slate-950 shadow-md font-extrabold'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#324a60] text-white shadow font-bold'
+                : 'text-[#383b3d] hover:text-[#324a60]'
             }`}
           >
-            <MessageSquare className="w-4 h-4" />
+            <MessageSquare className="w-4 h-4 text-[#e8ab16]" />
             <span>Obstacle AI Assistant Chatbot</span>
           </button>
 
           <button
             onClick={() => setActiveViewMode('matrix')}
-            className={`px-4 py-2 text-xs font-bold rounded-xl transition flex items-center space-x-2 ${
+            className={`px-4 py-2 text-xs font-bold rounded-lg transition flex items-center space-x-2 ${
               activeViewMode === 'matrix'
-                ? 'bg-amber-500 text-slate-950 shadow-md font-extrabold'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#324a60] text-white shadow font-bold'
+                : 'text-[#383b3d] hover:text-[#324a60]'
             }`}
           >
-            <Grid className="w-4 h-4" />
+            <Grid className="w-4 h-4 text-[#e8ab16]" />
             <span>Document Alternatives Matrix</span>
           </button>
         </div>
@@ -72,54 +72,54 @@ export default function ObstacleResolverModal({ selectedObstacle, onClose, t }) 
                 <button
                   key={item.missingDocId}
                   onClick={() => setActiveObstacleId(item.missingDocId)}
-                  className={`text-xs px-3.5 py-2 rounded-xl border transition font-medium text-left flex items-center space-x-2 ${
+                  className={`text-xs px-3.5 py-2 rounded-lg border transition font-bold text-left flex items-center space-x-2 ${
                     isActive
-                      ? 'bg-amber-500/20 border-amber-500 text-amber-300 font-semibold shadow-md'
-                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                      ? 'bg-[#324a60] text-white border-[#e8ab16] shadow'
+                      : 'bg-white border-[#896e6a] text-[#324a60] hover:border-[#e8ab16]'
                   }`}
                 >
-                  <AlertTriangle className={`w-3.5 h-3.5 ${isActive ? 'text-amber-400' : 'text-slate-500'}`} />
+                  <AlertTriangle className={`w-3.5 h-3.5 ${isActive ? 'text-[#e8ab16]' : 'text-[#896e6a]'}`} />
                   <span>{item.missingDocName}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="max-w-3xl mx-auto glass-panel p-5 sm:p-6 rounded-3xl border border-amber-500/30 space-y-6">
-            <div className="space-y-2 border-b border-slate-800 pb-4">
-              <h3 className="text-base font-bold text-white flex items-center space-x-2">
-                <span className="text-amber-400">Blocker:</span>
+          <div className="max-w-3xl mx-auto p-6 rounded-xl bg-white border border-[#896e6a] shadow-md space-y-6">
+            <div className="space-y-2 border-b border-[#896e6a]/30 pb-4">
+              <h3 className="text-base font-bold text-[#324a60] font-editorial flex items-center space-x-2">
+                <span className="text-[#e8ab16]">Blocker Issue:</span>
                 <span>{currentObstacle.missingDocName}</span>
               </h3>
-              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
+              <div className="p-3 rounded-lg bg-[#F8F9FA] border border-[#896e6a]/40 text-xs text-[#383b3d]">
                 <strong>Why required:</strong> {currentObstacle.whyRequired}
               </div>
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-sm font-bold text-emerald-400 flex items-center space-x-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <h4 className="text-xs font-bold text-[#324a60] uppercase tracking-wider flex items-center space-x-2">
+                <ShieldCheck className="w-4 h-4 text-[#74744a]" />
                 <span>{currentObstacle.acceptableAlternatives.length} Officially Acceptable Alternatives</span>
               </h4>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {currentObstacle.acceptableAlternatives.map((alt, idx) => (
-                  <div key={idx} className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3">
+                  <div key={idx} className="bg-[#F8F9FA] p-4 rounded-xl border border-[#896e6a]/40 space-y-3">
                     <div className="flex items-start justify-between">
-                      <h5 className="text-xs font-bold text-white flex items-center space-x-1.5">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <h5 className="text-xs font-bold text-[#324a60] font-editorial flex items-center space-x-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-[#74744a] shrink-0" />
                         <span>{alt.name}</span>
                       </h5>
-                      <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 shrink-0">
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-[#74744a]/10 text-[#74744a] border border-[#74744a]/30 shrink-0">
                         {alt.acquisitionDifficulty}
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-300">{alt.description}</p>
+                    <p className="text-xs text-[#383b3d]">{alt.description}</p>
 
-                    <div className="space-y-1 bg-slate-950 p-2.5 rounded-xl border border-slate-800/60">
-                      <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">How to Obtain:</span>
-                      <ol className="list-decimal list-inside text-[11px] text-slate-300 space-y-1">
+                    <div className="space-y-1 bg-white p-2.5 rounded-lg border border-[#896e6a]/30">
+                      <span className="text-[10px] font-bold text-[#324a60] uppercase tracking-wider">How to Obtain:</span>
+                      <ol className="list-decimal list-inside text-[11px] text-[#383b3d] space-y-1 font-medium">
                         {alt.steps.map((step, sIdx) => (
                           <li key={sIdx}>{step}</li>
                         ))}
